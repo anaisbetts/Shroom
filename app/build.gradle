@@ -1,8 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'retrolambda'
 
 android {
     compileSdkVersion 20
     buildToolsVersion '20.0.0'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "org.paulbetts.shroom"
@@ -30,6 +36,11 @@ android {
             keyPassword "android"
         }
     }
+}
+
+retrolambda {
+    jvmArgs '-noverify'
+    jdk '/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home'
 }
 
 dependencies {

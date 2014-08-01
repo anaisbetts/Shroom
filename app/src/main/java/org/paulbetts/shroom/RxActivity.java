@@ -15,13 +15,23 @@ import rx.*;
 public class RxActivity extends Activity {
 
     PublishSubject<LifecycleEvents> lifecycleEvents = PublishSubject.create();
+
     public Observable<LifecycleEvents> getLifecycleEvents() {
         return lifecycleEvents;
     }
 
     PublishSubject<Triplet<Integer, Integer, Intent>> activityResult = PublishSubject.create();
+
     public Observable<Triplet<Integer, Integer, Intent>> getActivityResult() {
         return activityResult;
+    }
+
+    static int nextRequest = 0x10000;
+    public Observable<Triplet<Integer, Integer, Intent>> startObsActivityForResult(Intent intent) {
+        int current = nextRequest++;
+
+        this.startActivityForResult(intent, current);
+        return this.getActivityResult().filter(x -> x.getValue0() == current);
     }
 
     @Override
