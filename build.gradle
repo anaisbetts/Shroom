@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        maven { url 'repo1.maven.org/maven2' }
         jcenter()
     }
     dependencies {
@@ -14,6 +15,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'repo1.maven.org/maven2' }
         jcenter()
     }
 }
