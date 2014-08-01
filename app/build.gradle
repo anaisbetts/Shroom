@@ -45,4 +45,5 @@ dependencies {
     compile 'com.squareup.dagger:dagger:1.2.+'
     compile 'com.netflix.rxjava:rxjava-android:0.20.+'
     compile 'com.etsy.android.grid:library:1.0.+'
+    compile 'org.javatuples:javatuples:1.+'
 }
