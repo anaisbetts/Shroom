@@ -23,6 +23,17 @@ public class RxDaggerActivity extends Activity {
         return lifecycleEvents;
     }
 
+    public Observable<LifecycleEvents> getLifecycleFor(LifecycleEvents... events) {
+        return getLifecycleEvents().filter(x -> {
+            for(LifecycleEvents ev: events) {
+                if (x == ev) return true;
+            }
+
+            return false;
+        });
+    }
+
+
     PublishSubject<Triplet<Integer, Integer, Intent>> activityResult = PublishSubject.create();
 
     public Observable<Triplet<Integer, Integer, Intent>> getActivityResult() {
