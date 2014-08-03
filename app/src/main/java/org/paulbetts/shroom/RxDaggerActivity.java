@@ -54,7 +54,8 @@ public abstract class RxDaggerActivity extends Activity {
 
     public Observable<Boolean> applyActivityHelpers(ActivityHelper... helpers){
         // NB: Compiler isn't clever enough to infer type :(
-        return Observable.from(helpers)
+        return getLifecycleFor(LifecycleEvents.CREATE)
+                .flatMap(x -> Observable.from(helpers))
                 .concatMap(x -> Observable.defer(new Func0<Observable<Boolean>>() {
                     @Override
                     public Observable<Boolean> call() {
