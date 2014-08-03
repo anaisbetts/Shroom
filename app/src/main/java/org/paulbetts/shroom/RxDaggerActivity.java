@@ -17,10 +17,15 @@ import rx.*;
  * Created by paul on 8/1/14.
  */
 public class RxDaggerActivity extends Activity {
-    PublishSubject<LifecycleEvents> lifecycleEvents = PublishSubject.create();
+    private PublishSubject<LifecycleEvents> lifecycleEvents = PublishSubject.create();
+    private Bundle currentBundle = null;
 
     public Observable<LifecycleEvents> getLifecycleEvents() {
         return lifecycleEvents;
+    }
+
+    public Bundle getCurrentBundle() {
+        return currentBundle;
     }
 
     public Observable<LifecycleEvents> getLifecycleFor(LifecycleEvents... events) {
@@ -32,7 +37,6 @@ public class RxDaggerActivity extends Activity {
             return false;
         });
     }
-
 
     PublishSubject<Triplet<Integer, Integer, Intent>> activityResult = PublishSubject.create();
 
@@ -71,7 +75,9 @@ public class RxDaggerActivity extends Activity {
         super.onCreate(savedInstanceState);
         ((DaggerApplication)getApplication()).inject(this);
 
+        currentBundle = savedInstanceState;
         lifecycleEvents.onNext(LifecycleEvents.CREATE);
+        currentBundle = null;
     }
 
     @Override
@@ -113,6 +119,9 @@ public class RxDaggerActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        currentBundle = outState;
         lifecycleEvents.onNext(LifecycleEvents.SAVEINSTANCESTATE);
+        currentBundle = null;
     }
 }
