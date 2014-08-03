@@ -4,6 +4,9 @@ package org.paulbetts.shroom.core;
 
 import android.content.Context;
 
+import org.paulbetts.shroom.CategoryListActivity;
+import org.paulbetts.shroom.CategoryListFragment;
+import org.paulbetts.shroom.WelcomeActivity;
 import org.paulbetts.shroom.core.DaggerApplication;
 import org.paulbetts.shroom.core.ForApplication;
 
@@ -15,7 +18,13 @@ import javax.inject.Singleton;
  * A module for Android-specific dependencies which require a {@link Context} or
  * {@link android.app.Application} to create.
  */
-@Module(library = true)
+@Module(
+        injects = {
+                CategoryListActivity.class,
+                WelcomeActivity.class,
+        },
+        library = true
+)
 public class AndroidModule {
     private final DaggerApplication application;
 
