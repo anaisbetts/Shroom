@@ -8,11 +8,25 @@
     android:paddingBottom="64dp"
     tools:context="org.paulbetts.shroom.WelcomeActivity">
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="It Worked"
-        android:id="@+id/doIt"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:contentDescription="App Logo"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="Choose Folder in Google Drive"
+            android:id="@+id/chooseDrive" />
+    </LinearLayout>
 </RelativeLayout>

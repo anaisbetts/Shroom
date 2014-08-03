@@ -9,10 +9,14 @@ public class WelcomeActivity extends DriveBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        this.setResult(RESULT_CANCELED);
+
+        /*
         Button doIt = (Button)findViewById(R.id.doIt);
         doIt.setOnClickListener(view -> {
             WelcomeActivity.this.setResult(RESULT_OK);
             WelcomeActivity.this.finish();
         });
+        */
     }
 }
