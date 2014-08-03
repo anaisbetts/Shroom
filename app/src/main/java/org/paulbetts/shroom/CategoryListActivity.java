@@ -40,8 +40,12 @@ public class CategoryListActivity extends DriveBaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getConnectedToDrive().subscribe(x -> {}, ex -> finish());
+
         applyActivityHelpers(appSettings).subscribe(x -> {
             setContentView(R.layout.activity_category_list);
+
+            if (x == false) finish();
 
             if (findViewById(R.id.category_detail_container) != null) {
                 // The detail container view will be present only in the

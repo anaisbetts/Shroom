@@ -3,6 +3,7 @@ package org.paulbetts.shroom;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.javatuples.Triplet;
 import org.paulbetts.shroom.core.ActivityHelper;
@@ -51,12 +52,16 @@ public abstract class RxDaggerActivity extends Activity {
         int current = nextRequest++;
 
         this.startActivityForResult(intent, current);
-        return this.getActivityResult().filter(x -> x.getValue0() == current);
+        return this.getActivityResult()
+                .filter(x -> x.getValue0() == current)
+                .take(1)
+                .publishLast().refCount();
     }
 
     public Observable<Boolean> applyActivityHelpers(ActivityHelper... helpers){
         // NB: Compiler isn't clever enough to infer type :(
         return getLifecycleFor(LifecycleEvents.CREATE)
+                .take(1)
                 .flatMap(x -> Observable.from(helpers))
                 .concatMap(x -> Observable.defer(new Func0<Observable<Boolean>>() {
                     @Override

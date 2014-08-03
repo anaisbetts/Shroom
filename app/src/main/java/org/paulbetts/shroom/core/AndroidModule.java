@@ -4,6 +4,7 @@ package org.paulbetts.shroom.core;
 
 import android.content.Context;
 
+import org.paulbetts.shroom.CategoryDetailActivity;
 import org.paulbetts.shroom.CategoryListActivity;
 import org.paulbetts.shroom.CategoryListFragment;
 import org.paulbetts.shroom.WelcomeActivity;
@@ -21,6 +22,7 @@ import javax.inject.Singleton;
 @Module(
         injects = {
                 CategoryListActivity.class,
+                CategoryDetailActivity.class,
                 WelcomeActivity.class,
         },
         library = true
