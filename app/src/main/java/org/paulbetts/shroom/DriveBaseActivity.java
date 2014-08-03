@@ -29,12 +29,12 @@ public abstract class DriveBaseActivity extends RxDaggerActivity implements Goog
         super.onCreate(savedInstanceState);
 
         googleApiClient = new GoogleApiClient.Builder(this)
-            .addApi(Drive.API)
-            .addScope(Drive.SCOPE_FILE)
-            .addScope(Drive.SCOPE_APPFOLDER)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .build();
+                .addApi(Drive.API)
+                .addScope(Drive.SCOPE_FILE)
+                .addScope(Drive.SCOPE_APPFOLDER)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
     @Override
