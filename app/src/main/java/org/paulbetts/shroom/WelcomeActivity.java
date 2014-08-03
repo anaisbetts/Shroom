@@ -3,7 +3,7 @@ package org.paulbetts.shroom;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class WelcomeActivity extends RxDaggerActivity {
+public class WelcomeActivity extends DriveBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
