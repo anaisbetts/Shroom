@@ -34,7 +34,6 @@ public class AppSettings implements ActivityHelper {
                 .publishLast()
                 .refCount();
         } else {
-            Log.d("AppSettings", "HOW ARE WE GETTING HERE");
             return Observable.from(Boolean.TRUE);
         }
     }
