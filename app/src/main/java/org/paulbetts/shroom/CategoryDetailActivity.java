@@ -16,7 +16,7 @@ import android.view.MenuItem;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link CategoryDetailFragment}.
  */
-public class CategoryDetailActivity extends Activity {
+public class CategoryDetailActivity extends DriveBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

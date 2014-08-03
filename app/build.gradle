@@ -1,8 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'retrolambda'
 
 android {
     compileSdkVersion 20
     buildToolsVersion '20.0.0'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "org.paulbetts.shroom"
@@ -32,6 +38,11 @@ android {
     }
 }
 
+retrolambda {
+    jvmArgs '-noverify'
+    jdk '/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -42,8 +53,9 @@ dependencies {
     compile 'com.android.support:palette-v7:+'
     compile 'com.google.android.gms:play-services:+'
     compile 'com.squareup.okhttp:okhttp:2.0.+'
-    compile 'com.squareup.dagger:dagger:1.2.+'
-    compile 'com.netflix.rxjava:rxjava-android:0.20.+'
+    compile 'com.squareup.dagger:dagger:+'
+    compile 'com.squareup.dagger:dagger-compiler:+'
+    compile 'com.netflix.rxjava:rxjava-android:+'
     compile 'com.etsy.android.grid:library:1.0.+'
-    compile 'org.javatuples:javatuples:1.+'
+    compile 'org.javatuples:javatuples:+'
 }

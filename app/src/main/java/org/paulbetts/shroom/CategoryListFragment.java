@@ -1,6 +1,7 @@
 package org.paulbetts.shroom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
+import org.paulbetts.shroom.core.ForApplication;
 import org.paulbetts.shroom.dummy.DummyContent;
+
+import javax.inject.Inject;
 
 /**
  * A list fragment representing a list of Categories. This fragment
@@ -20,6 +24,8 @@ import org.paulbetts.shroom.dummy.DummyContent;
  * interface.
  */
 public class CategoryListFragment extends ListFragment {
+    @Inject @ForApplication
+    Context appContext;
 
     /**
      * The serialization (saved instance state) Bundle key representing the

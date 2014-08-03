@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 
+import org.paulbetts.shroom.core.AppSettings;
 
-
+import javax.inject.Inject;
 
 /**
  * An activity representing a list of Categories. This activity
@@ -23,7 +24,7 @@ import android.app.Activity;
  * {@link CategoryListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class CategoryListActivity extends Activity
+public class CategoryListActivity extends DriveBaseActivity
         implements CategoryListFragment.Callbacks {
 
     /**
@@ -32,26 +33,36 @@ public class CategoryListActivity extends Activity
      */
     private boolean mTwoPane;
 
+    @Inject
+    AppSettings appSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_list);
 
-        if (findViewById(R.id.category_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
+        getConnectedToDrive().subscribe(x -> {}, ex -> finish());
 
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((CategoryListFragment) getFragmentManager()
-                    .findFragmentById(R.id.category_list))
-                    .setActivateOnItemClick(true);
-        }
+        applyActivityHelpers(appSettings).subscribe(x -> {
+            setContentView(R.layout.activity_category_list);
 
-        // TODO: If exposing deep links into your app, handle intents here.
+            if (x == false) finish();
+
+            if (findViewById(R.id.category_detail_container) != null) {
+                // The detail container view will be present only in the
+                // large-screen layouts (res/values-large and
+                // res/values-sw600dp). If this view is present, then the
+                // activity should be in two-pane mode.
+                mTwoPane = true;
+
+                // In two-pane mode, list items should be given the
+                // 'activated' state when touched.
+                ((CategoryListFragment) getFragmentManager()
+                        .findFragmentById(R.id.category_list))
+                        .setActivateOnItemClick(true);
+            }
+
+            // TODO: If exposing deep links into your app, handle intents here.
+        });
     }
 
     /**
