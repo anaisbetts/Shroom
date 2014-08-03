@@ -13,7 +13,7 @@ public class DaggerApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        graph = ObjectGraph.create();
+        graph = ObjectGraph.create(new AndroidModule(this));
     }
 
     public void inject(Object target){
