@@ -27,10 +27,10 @@ public class AppSettings implements ActivityHelper {
         if (prefs.getBoolean("shouldShowInitialRun", true)) {
             Intent welcomeIntent = new Intent(activity, WelcomeActivity.class);
 
-            return activity.getLifecycleFor(LifecycleEvents.CREATE)
+            return activity.getLifecycleFor(LifecycleEvents.CREATE).take(1)
                 .flatMap(x -> activity.startObsActivityForResult(welcomeIntent))
                 .map(x -> x.getValue1() == Activity.RESULT_OK)
-               // .doOnNext(x -> prefs.edit().putBoolean("shouldShowInitialRun", true).commit())
+                .doOnNext(x -> prefs.edit().putBoolean("shouldShowInitialRun", false).commit())
                 .publishLast()
                 .refCount();
         } else {
