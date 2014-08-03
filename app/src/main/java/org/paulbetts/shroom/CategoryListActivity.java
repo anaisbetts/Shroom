@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 
+import org.paulbetts.shroom.core.AppSettings;
+
+import javax.inject.Inject;
+
 /**
  * An activity representing a list of Categories. This activity
  * has different presentations for handset and tablet-size devices. On
@@ -29,26 +33,32 @@ public class CategoryListActivity extends DriveBaseActivity
      */
     private boolean mTwoPane;
 
+    @Inject
+    AppSettings appSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_list);
 
-        if (findViewById(R.id.category_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
+        applyActivityHelpers(appSettings).subscribe(x -> {
+            setContentView(R.layout.activity_category_list);
 
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((CategoryListFragment) getFragmentManager()
-                    .findFragmentById(R.id.category_list))
-                    .setActivateOnItemClick(true);
-        }
+            if (findViewById(R.id.category_detail_container) != null) {
+                // The detail container view will be present only in the
+                // large-screen layouts (res/values-large and
+                // res/values-sw600dp). If this view is present, then the
+                // activity should be in two-pane mode.
+                mTwoPane = true;
 
-        // TODO: If exposing deep links into your app, handle intents here.
+                // In two-pane mode, list items should be given the
+                // 'activated' state when touched.
+                ((CategoryListFragment) getFragmentManager()
+                        .findFragmentById(R.id.category_list))
+                        .setActivateOnItemClick(true);
+            }
+
+            // TODO: If exposing deep links into your app, handle intents here.
+        });
     }
 
     /**
