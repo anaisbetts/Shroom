@@ -27,6 +27,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
             android:text="Choose Folder in Google Drive"
-            android:id="@+id/chooseDrive" />
+            android:id="@+id/chooseFolderInDrive" />
     </LinearLayout>
 </RelativeLayout>
