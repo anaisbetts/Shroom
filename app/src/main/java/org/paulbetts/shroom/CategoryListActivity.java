@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 
-
-
-
 /**
  * An activity representing a list of Categories. This activity
  * has different presentations for handset and tablet-size devices. On
