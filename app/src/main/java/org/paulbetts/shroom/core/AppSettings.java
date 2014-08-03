@@ -29,7 +29,7 @@ public class AppSettings implements ActivityHelper {
 
             return activity.getLifecycleFor(LifecycleEvents.CREATE).take(1)
                 .flatMap(x -> activity.startObsActivityForResult(welcomeIntent))
-                .map(x -> x.getValue1() == Activity.RESULT_OK)
+                .map(x -> x.getValue0() == Activity.RESULT_OK)
                 .doOnNext(resultIsOk -> prefs.edit().putBoolean("shouldShowInitialRun", resultIsOk == false).commit())
                 .publishLast()
                 .refCount();
