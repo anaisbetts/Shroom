@@ -5,15 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.javatuples.Triplet;
+import org.paulbetts.shroom.core.ActivityHelper;
+import org.paulbetts.shroom.core.DaggerApplication;
 
+import rx.Observable;
+import rx.functions.Func0;
 import rx.subjects.PublishSubject;
 import rx.*;
 
 /**
  * Created by paul on 8/1/14.
  */
-public class RxActivity extends Activity {
-
+public class RxDaggerActivity extends Activity {
     PublishSubject<LifecycleEvents> lifecycleEvents = PublishSubject.create();
 
     public Observable<LifecycleEvents> getLifecycleEvents() {
@@ -34,6 +37,18 @@ public class RxActivity extends Activity {
         return this.getActivityResult().filter(x -> x.getValue0() == current);
     }
 
+    public Observable<Boolean> applyActivityHelpers(ActivityHelper... helpers){
+        // NB: Compiler isn't clever enough to infer type :(
+        return Observable.from(helpers)
+                .concatMap(x -> Observable.defer(new Func0<Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call() {
+                        return x.initializeHelper(RxDaggerActivity.this);
+                    }
+                }))
+                .reduce((Boolean) true, (acc, x) -> acc && x);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -43,6 +58,8 @@ public class RxActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((DaggerApplication)getApplication()).inject(this);
+
         lifecycleEvents.onNext(LifecycleEvents.CREATE);
     }
 

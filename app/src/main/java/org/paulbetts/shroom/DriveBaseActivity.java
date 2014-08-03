@@ -1,6 +1,5 @@
 package org.paulbetts.shroom;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import com.google.android.gms.drive.Drive;
 import rx.Observable;
 import rx.subjects.AsyncSubject;
 
-public abstract class DriveBaseActivity extends RxActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public abstract class DriveBaseActivity extends RxDaggerActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     protected GoogleApiClient googleApiClient;
     private boolean isAuthorizing = false;
 
