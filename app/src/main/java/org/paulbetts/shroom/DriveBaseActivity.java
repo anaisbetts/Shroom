@@ -1,5 +1,7 @@
 package org.paulbetts.shroom;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
@@ -72,11 +74,13 @@ public abstract class DriveBaseActivity extends RxDaggerActivity implements Goog
                 isAuthorizing = true;
                 connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
             } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
+                connectedToDrive.onError(new Exception("Failed to connect to Drive"));
             }
         } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
-            connectedToDrive.onError(new Exception("Failed to connect to Drive"));
+            Dialog d =  GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0);
+
+            d.setOnDismissListener(x -> connectedToDrive.onError(new Exception("Failed to connect to Drive")));
+            d.show();
         }
     }
 }
