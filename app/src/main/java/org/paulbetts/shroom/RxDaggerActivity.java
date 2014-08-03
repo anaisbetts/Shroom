@@ -17,7 +17,7 @@ import rx.*;
  * Created by paul on 8/1/14.
  */
 public abstract class RxDaggerActivity extends Activity {
-    private PublishSubject<LifecycleEvents> lifecycleEvents = PublishSubject.create();
+    private ReplaySubject<LifecycleEvents> lifecycleEvents = ReplaySubject.create(1);
     private Bundle currentBundle = null;
 
     public Observable<LifecycleEvents> getLifecycleEvents() {
