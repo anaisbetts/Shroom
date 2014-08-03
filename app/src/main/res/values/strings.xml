@@ -3,5 +3,8 @@
 
     <string name="app_name">Shroom</string>
     <string name="title_category_detail">Category Detail</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
