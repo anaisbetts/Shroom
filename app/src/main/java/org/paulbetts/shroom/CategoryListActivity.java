@@ -20,7 +20,7 @@ import android.app.Activity;
  * {@link CategoryListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class CategoryListActivity extends Activity
+public class CategoryListActivity extends DriveBaseActivity
         implements CategoryListFragment.Callbacks {
 
     /**
