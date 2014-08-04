@@ -29,12 +29,11 @@ public class AppSettings implements ActivityHelper {
 
             return activity.getLifecycleFor(LifecycleEvents.CREATE).take(1)
                 .flatMap(x -> activity.startObsActivityForResult(welcomeIntent))
-                .map(x -> x.getValue1() == Activity.RESULT_OK)
-                .doOnNext(x -> prefs.edit().putBoolean("shouldShowInitialRun", false).commit())
+                .map(x -> x.getValue0() == Activity.RESULT_OK)
+                .doOnNext(resultIsOk -> prefs.edit().putBoolean("shouldShowInitialRun", resultIsOk == false).commit())
                 .publishLast()
                 .refCount();
         } else {
-            Log.d("AppSettings", "HOW ARE WE GETTING HERE");
             return Observable.from(Boolean.TRUE);
         }
     }
