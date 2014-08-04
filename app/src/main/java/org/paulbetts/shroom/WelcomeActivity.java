@@ -30,7 +30,7 @@ public class WelcomeActivity extends DriveBaseActivity {
                     .setMimeType(new String[] {DriveFolder.MIME_TYPE })
                     .build(googleApiClient);
 
-            this.startObsIntentSenderForResult(sender)
+            this.startObsIntentSenderForResult(sender, android.R.anim.fade_in, android.R.anim.fade_out)
                     .filter(x -> x.getValue0() == Activity.RESULT_OK)
                     .subscribe(x -> {
                         DriveId driveId = x.getValue1().getParcelableExtra(
