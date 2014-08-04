@@ -77,6 +77,7 @@ public class CategoryListActivity extends DriveBaseActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(CategoryDetailFragment.ARG_ITEM_ID, id);
+
             CategoryDetailFragment fragment = new CategoryDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -88,7 +89,9 @@ public class CategoryListActivity extends DriveBaseActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, CategoryDetailActivity.class);
             detailIntent.putExtra(CategoryDetailFragment.ARG_ITEM_ID, id);
+
             startActivity(detailIntent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         }
     }
 }

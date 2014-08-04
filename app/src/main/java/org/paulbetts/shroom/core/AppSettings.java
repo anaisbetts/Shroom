@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.paulbetts.shroom.LifecycleEvents;
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.RxDaggerActivity;
 import org.paulbetts.shroom.WelcomeActivity;
 
@@ -28,7 +29,7 @@ public class AppSettings implements ActivityHelper {
             Intent welcomeIntent = new Intent(activity, WelcomeActivity.class);
 
             return activity.getLifecycleFor(LifecycleEvents.CREATE).take(1)
-                .flatMap(x -> activity.startObsActivityForResult(welcomeIntent))
+                .flatMap(x -> activity.startObsActivityForResult(welcomeIntent, android.R.anim.fade_in, android.R.anim.fade_out))
                 .map(x -> x.getValue0() == Activity.RESULT_OK)
                 .doOnNext(resultIsOk -> prefs.edit().putBoolean("shouldShowInitialRun", resultIsOk == false).commit())
                 .publishLast()
