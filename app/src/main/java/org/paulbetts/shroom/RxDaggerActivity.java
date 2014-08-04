@@ -2,9 +2,11 @@ package org.paulbetts.shroom;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.paulbetts.shroom.core.ActivityHelper;
 import org.paulbetts.shroom.core.DaggerApplication;
@@ -48,15 +50,33 @@ public abstract class RxDaggerActivity extends Activity {
     }
 
     static int nextRequest = 0x10000;
-    public Observable<Triplet<Integer, Integer, Intent>> startObsActivityForResult(Intent intent) {
+    public Observable<Pair<Integer, Intent>> startObsActivityForResult(Intent intent) {
         int current = nextRequest++;
 
         this.startActivityForResult(intent, current);
         return this.getActivityResult()
                 .filter(x -> x.getValue0() == current)
+                .map(x -> Pair.with(x.getValue1(), x.getValue2()))
                 .take(1)
                 .publishLast().refCount();
     }
+
+    public Observable<Pair<Integer, Intent>> startObsIntentSenderForResult(IntentSender intent) {
+        int current = nextRequest++;
+
+        try {
+            this.startIntentSenderForResult(intent, current, null, 0, 0, 0);
+        } catch (IntentSender.SendIntentException e) {
+            return Observable.error(e);
+        }
+
+        return this.getActivityResult()
+                .filter(x -> x.getValue0() == current)
+                .map(x -> Pair.with(x.getValue1(), x.getValue2()))
+                .take(1)
+                .publishLast().refCount();
+    }
+
 
     public Observable<Boolean> applyActivityHelpers(ActivityHelper... helpers){
         // NB: Compiler isn't clever enough to infer type :(

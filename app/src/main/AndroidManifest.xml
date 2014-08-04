@@ -47,6 +47,7 @@
 
         <activity
             android:name=".WelcomeActivity"
+            android:theme="@style/AppThemeNoActionBar"
             android:label="@string/title_activity_welcome" >
         </activity>
     </application>
