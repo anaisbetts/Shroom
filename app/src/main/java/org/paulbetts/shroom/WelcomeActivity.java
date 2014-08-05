@@ -12,6 +12,10 @@ import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.OpenFileActivityBuilder;
 
 public class WelcomeActivity extends DriveBaseActivity {
+
+    @Inject
+    AppSettings appSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,25 +26,30 @@ public class WelcomeActivity extends DriveBaseActivity {
         Button chooseFolder = (Button)findViewById(R.id.chooseFolderInDrive);
         chooseFolder.setClickable(false);
 
-        getConnectedToDrive().subscribe(conn -> chooseFolder.setClickable(true));
+        applyActivityHelpers(appSettings).subscribe(applyWorked -> {
+            getConnectedToDrive().subscribe(conn -> chooseFolder.setClickable(true));
 
-        chooseFolder.setOnClickListener(view -> {
-            IntentSender sender = Drive.DriveApi
-                    .newOpenFileActivityBuilder()
-                    .setMimeType(new String[] {DriveFolder.MIME_TYPE })
-                    .build(googleApiClient);
+            chooseFolder.setOnClickListener(view -> {
+                IntentSender sender = Drive.DriveApi
+                        .newOpenFileActivityBuilder()
+                        .setMimeType(new String[]{DriveFolder.MIME_TYPE})
+                        .build(googleApiClient);
 
-            this.startObsIntentSenderForResult(sender, android.R.anim.fade_in, android.R.anim.fade_out)
-                    .filter(x -> x.getValue0() == Activity.RESULT_OK)
-                    .subscribe(x -> {
-                        DriveId driveId = x.getValue1().getParcelableExtra(
-                                OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                this.startObsIntentSenderForResult(sender, android.R.anim.fade_in, android.R.anim.fade_out)
+                        .filter(x -> x.getValue0() == Activity.RESULT_OK)
+                        .subscribe(x -> {
+                            DriveId driveId = x.getValue1().getParcelableExtra(
+                                    OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
 
-                        Log.i("WelcomeActivity", "Selected folder's ID: " + driveId);
+                            DriveFolder folder = Drive.DriveApi.getFolder(googleApiClient, driveId);
+                            appSettings.setRootRomFolder(folder);
 
-                        WelcomeActivity.this.setResult(RESULT_OK);
-                        WelcomeActivity.this.finish();
-                    });
+                            Log.i("WelcomeActivity", "Selected folder's ID: " + driveId);
+
+                            WelcomeActivity.this.setResult(RESULT_OK);
+                            WelcomeActivity.this.finish();
+                        });
+            });
         });
     }
 }
