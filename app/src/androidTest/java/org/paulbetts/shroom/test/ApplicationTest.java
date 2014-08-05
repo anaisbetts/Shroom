@@ -1,4 +1,4 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
