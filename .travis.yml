@@ -3,6 +3,7 @@ jdk: oraclejdk8
 env:
   matrix:
     - ANDROID_API_LEVEL=android-19 ANDROID_ABI=x86
+    - ANDROID_API_LEVEL=android-15 ANDROID_ABI=x86
 
 android:
   components:
@@ -12,6 +13,7 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
+    - sys-img-x86-android-15
     - sys-img-x86-android-19
   licenses:
     - android-sdk-license-5be876d5 # new license!
@@ -24,4 +26,4 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
     
-script: ./gradlew build connectedCheck
+script: ./gradlew connectedAndroidTest
