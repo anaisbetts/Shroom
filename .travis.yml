@@ -8,6 +8,10 @@ env:
 android:
   components:
     - build-tools-20.0.0
+    - extra-android-support
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
   licenses:
     - android-sdk-license-5be876d5 # new license!
     - '.*intel.+'
