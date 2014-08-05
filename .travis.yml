@@ -1,9 +1,8 @@
 language: android
 jdk: oraclejdk8
 env:
-  global:
-    - ANDROID_API_LEVEL=android-20
-    - ANDROID_ABI=x86
+  matrix:
+    - ANDROID_API_LEVEL=android-19 ANDROID_ABI=x86
 
 android:
   components:
@@ -13,7 +12,7 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-x86-android-20
+    - sys-img-x86-android-19
   licenses:
     - android-sdk-license-5be876d5 # new license!
     - '.*intel.+'
