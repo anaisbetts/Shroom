@@ -80,7 +80,6 @@ public abstract class RxDaggerActivity extends Activity {
                 .publishLast().refCount();
     }
 
-
     public Observable<Boolean> applyActivityHelpers(ActivityHelper... helpers){
         // NB: Compiler isn't clever enough to infer type :(
         return getLifecycleFor(LifecycleEvents.CREATE)
