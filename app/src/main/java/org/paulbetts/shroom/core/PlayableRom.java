@@ -4,27 +4,42 @@ import android.media.Image;
 
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
+
+import java.util.Date;
+
 import rx.*;
 
 public class PlayableRom {
-    public PlayableRom(DriveId romDriveId, String friendlyTitle, boolean isStarred, Observable<Image> imageToBeLoaded) {
+    public PlayableRom(Date createdAt, Date lastPlayedAt, DriveId romDriveId, String friendlyTitle, boolean isStarred, Observable<Image> imageToBeLoaded) {
+        this.createdAt = createdAt;
+        this.lastPlayedAt = lastPlayedAt;
         this.romDriveId = romDriveId;
         this.friendlyTitle = friendlyTitle;
         this.isStarred = isStarred;
         this.imageToBeLoaded = imageToBeLoaded;
     }
 
-    private DriveId romDriveId;
+    protected Date createdAt;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    protected Date lastPlayedAt;
+    public Date getLastPlayedAt() {
+        return lastPlayedAt;
+    }
+
+    protected DriveId romDriveId;
     public DriveId getRomDriveId() {
         return romDriveId;
     }
 
-    private String friendlyTitle;
+    protected String friendlyTitle;
     public String getFriendlyTitle() {
         return friendlyTitle;
     }
 
-    private boolean isStarred;
+    protected boolean isStarred;
     public boolean isStarred() {
         return isStarred;
     }
@@ -32,7 +47,7 @@ public class PlayableRom {
         this.isStarred = isStarred;
     }
 
-    private Observable<Image> imageToBeLoaded;
+    protected Observable<Image> imageToBeLoaded;
     public Observable<Image> getImageToBeLoaded() {
         return imageToBeLoaded;
     }
