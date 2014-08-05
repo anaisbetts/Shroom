@@ -19,12 +19,12 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.apps.drive.APP_ID"
-            android:value="id=326434505097" />
+            android:value="id=1062854576532" />
 
         <intent-filter>
             <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
 
-            <data android:mimeType="application/vnd.google-apps.drive-sdk.326434505097" />
+            <data android:mimeType="application/vnd.google-apps.drive-sdk.1062854576532" />
         </intent-filter>
 
         <activity
