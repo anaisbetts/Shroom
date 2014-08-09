@@ -1,7 +1,6 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.core;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;

@@ -1,8 +1,7 @@
-package org.paulbetts.shroom.core;
+package org.paulbetts.shroom;
 
 import android.media.Image;
 
-import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 
 import java.util.Date;
