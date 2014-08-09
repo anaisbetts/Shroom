@@ -5,6 +5,8 @@ import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
 
+import org.paulbetts.shroom.gdrive.DriveItem;
+
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -19,15 +21,13 @@ import rx.Observable;
 @Singleton
 public class SnesCategoryScanner extends CategoryScanner {
     @Override
-    public Query generateQueryForCategory() {
-        return new Query.Builder()
-                .addFilter(Filters.contains(SearchableField.TITLE, ".smc"))
-                .build();
+    public String generateQueryForCategory() {
+        return "title contains '.smc'";
     }
 
     @Override
-    public PlayableRom romForDriveFile(Metadata file) {
-        return new PlayableRom(new Date(), new Date(), file.getDriveId(), file.getTitle(), false, Observable.never());
+    public PlayableRom romForDriveFile(DriveItem file) {
+        return new PlayableRom(new Date(), new Date(), file.getId(), file.getTitle(), false, Observable.never());
     }
 
     @Inject

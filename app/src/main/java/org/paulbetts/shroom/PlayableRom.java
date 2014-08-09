@@ -9,7 +9,7 @@ import java.util.Date;
 import rx.*;
 
 public class PlayableRom {
-    public PlayableRom(Date createdAt, Date lastPlayedAt, DriveId romDriveId, String friendlyTitle, boolean isStarred, Observable<Image> imageToBeLoaded) {
+    public PlayableRom(Date createdAt, Date lastPlayedAt, String romDriveId, String friendlyTitle, boolean isStarred, Observable<Image> imageToBeLoaded) {
         this.createdAt = createdAt;
         this.lastPlayedAt = lastPlayedAt;
         this.romDriveId = romDriveId;
@@ -28,8 +28,8 @@ public class PlayableRom {
         return lastPlayedAt;
     }
 
-    protected DriveId romDriveId;
-    public DriveId getRomDriveId() {
+    protected String romDriveId;
+    public String getRomDriveId() {
         return romDriveId;
     }
 
