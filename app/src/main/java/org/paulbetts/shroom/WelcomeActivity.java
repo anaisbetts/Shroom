@@ -16,6 +16,7 @@ import com.google.android.gms.drive.query.Query;
 
 import org.javatuples.Pair;
 import org.paulbetts.shroom.core.AppSettingsHelper;
+import org.paulbetts.shroom.core.OAuthTokenHelper;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 import org.paulbetts.shroom.helpers.RxPendingResult;
 
@@ -33,6 +34,9 @@ public class WelcomeActivity extends RxDaggerActivity {
     AppSettingsHelper appSettings;
 
     @Inject
+    OAuthTokenHelper oauthTokens;
+
+    @Inject
     CategoryScanners scanners;
 
     @Override
@@ -45,7 +49,7 @@ public class WelcomeActivity extends RxDaggerActivity {
         Button chooseFolder = (Button) findViewById(R.id.chooseFolderInDrive);
         chooseFolder.setClickable(false);
 
-        applyActivityHelpers(appSettings).subscribe(applyWorked -> {
+        applyActivityHelpers(appSettings, oauthTokens).subscribe(applyWorked -> {
             chooseFolder.setOnClickListener(view -> {
                 /*
                 IntentSender sender = Drive.DriveApi

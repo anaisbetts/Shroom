@@ -53,7 +53,7 @@ public class DriveItem {
     @Expose
     private List<String> ownerNames = new ArrayList<String>();
     @Expose
-    private List<Owner> owners = new ArrayList<Owner>();
+    private List<User> users = new ArrayList<User>();
     @Expose
     private String lastModifyingUserName;
     @Expose
@@ -255,12 +255,12 @@ public class DriveItem {
         this.ownerNames = ownerNames;
     }
 
-    public List<Owner> getOwners() {
-        return owners;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setOwners(List<Owner> owners) {
-        this.owners = owners;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public String getLastModifyingUserName() {

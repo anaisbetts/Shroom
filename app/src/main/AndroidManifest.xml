@@ -5,8 +5,9 @@
 
     <uses-sdk tools:node="replace" />
 
-    <!-- Used to allow explicit account selection for testing -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"

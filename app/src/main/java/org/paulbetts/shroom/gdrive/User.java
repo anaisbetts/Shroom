@@ -1,7 +1,7 @@
 package org.paulbetts.shroom.gdrive;
 import com.google.gson.annotations.Expose;
 
-public class Owner {
+public class User {
 
     @Expose
     private String kind;
