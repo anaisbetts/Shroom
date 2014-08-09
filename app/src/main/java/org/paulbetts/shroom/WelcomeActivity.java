@@ -1,33 +1,15 @@
 package org.paulbetts.shroom;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveFolder;
-import com.google.android.gms.drive.DriveId;
-import com.google.android.gms.drive.MetadataBuffer;
-import com.google.android.gms.drive.OpenFileActivityBuilder;
-import com.google.android.gms.drive.query.Query;
-
-import org.javatuples.Pair;
 import org.paulbetts.shroom.core.AppSettingsHelper;
 import org.paulbetts.shroom.core.OAuthTokenHelper;
 import org.paulbetts.shroom.core.RxDaggerActivity;
-import org.paulbetts.shroom.helpers.RxPendingResult;
-
-import java.util.ArrayList;
+import org.paulbetts.shroom.gdrive.DriveItem;
 
 import javax.inject.Inject;
-
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func0;
-import rx.functions.Func2;
 
 public class WelcomeActivity extends RxDaggerActivity {
     @Inject
@@ -51,28 +33,12 @@ public class WelcomeActivity extends RxDaggerActivity {
 
         applyActivityHelpers(appSettings, oauthTokens).subscribe(applyWorked -> {
             chooseFolder.setOnClickListener(view -> {
-                /*
-                IntentSender sender = Drive.DriveApi
-                        .newOpenFileActivityBuilder()
-                        .setMimeType(new String[]{DriveFolder.MIME_TYPE})
-                        .build(googleApiClient);
-                        */
-
-                /*
-                this.startObsIntentSenderForResult(sender, android.R.anim.fade_in, android.R.anim.fade_out)
-                        .filter(x -> x.getValue0() == Activity.RESULT_OK)
-                        .observeOn(Schedulers.io())
-                        .map(x -> getFolderFromResultAndSave(x.getValue1()))
-                        .map(x -> x.listChildren(googleApiClient).await())
+                oauthTokens.driveService.list("title contains 'smc'")
                         .subscribe(x -> {
-                            MetadataBuffer buf = x.getMetadataBuffer();
-                            int count = buf.getCount();
-                            for (int i = 0; i < count; i++) {
-                                String dbg = "Found a ROM: " + buf.get(i).getTitle() + ", " + buf.get(i).getMimeType();
-                                Log.i("WelcomeActivity", dbg);
+                            for (DriveItem di: x.getItems()) {
+                                Log.i("WelcomeActivity", di.getTitle());
                             }
                         });
-                        */
 
                 /*
                 this.startObsIntentSenderForResult(sender, android.R.anim.fade_in, android.R.anim.fade_out)
@@ -90,6 +56,8 @@ public class WelcomeActivity extends RxDaggerActivity {
                         });
                         */
             });
+
+            chooseFolder.setClickable(true);
         });
     }
 
