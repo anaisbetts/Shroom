@@ -1,5 +1,7 @@
 package org.paulbetts.shroom;
 
+import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.query.Query;
 
 import org.paulbetts.shroom.core.AppSettings;
@@ -7,7 +9,7 @@ import org.paulbetts.shroom.core.AppSettings;
 /**
  * Created by paul on 8/5/14.
  */
-public abstract class CategoryBase {
+public abstract class CategoryScanner {
     protected int iconId;
     public int getIconId() {
         return iconId;
@@ -19,5 +21,5 @@ public abstract class CategoryBase {
     }
 
     public abstract Query generateQueryForCategory();
-    public abstract Iterable<PlayableRom> loadRomsForCategory(AppSettings settings);
+    public abstract PlayableRom romForDriveFile(Metadata file);
 }
