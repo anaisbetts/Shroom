@@ -15,11 +15,11 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-public class AppSettings implements ActivityHelper {
+public class AppSettingsHelper implements ActivityHelper {
     private SharedPreferences prefs;
 
     @Inject
-    public AppSettings() {
+    public AppSettingsHelper() {
     }
 
     @Override
@@ -38,18 +38,5 @@ public class AppSettings implements ActivityHelper {
         } else {
             return Observable.from(Boolean.TRUE);
         }
-    }
-
-    public DriveFolder getRootRomFolder(GoogleApiClient apiClient) {
-        String s = prefs.getString("rootRomFolder", null);
-        if (s == null) return null;
-
-        return Drive.DriveApi.getFolder(apiClient, DriveId.decodeFromString(s));
-    }
-
-    public void setRootRomFolder(DriveFolder folder) {
-        prefs.edit()
-                .putString("rootRomFolder", folder.getDriveId().encodeToString())
-                .apply();
     }
 }
