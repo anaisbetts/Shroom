@@ -3,16 +3,12 @@ package org.paulbetts.shroom.core;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 
-import org.paulbetts.shroom.LifecycleEvents;
-import org.paulbetts.shroom.R;
-import org.paulbetts.shroom.RxDaggerActivity;
 import org.paulbetts.shroom.WelcomeActivity;
 
 import javax.inject.Inject;

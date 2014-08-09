@@ -1,9 +1,8 @@
-package org.paulbetts.shroom.core;
+package org.paulbetts.shroom;
 
-import android.content.Intent;
-
-import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.query.Query;
+
+import org.paulbetts.shroom.core.AppSettings;
 
 /**
  * Created by paul on 8/5/14.

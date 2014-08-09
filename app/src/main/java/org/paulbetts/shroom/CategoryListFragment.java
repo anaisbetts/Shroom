@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-import org.paulbetts.shroom.core.ForApplication;
+import org.paulbetts.shroom.helpers.ForApplication;
 import org.paulbetts.shroom.dummy.DummyContent;
 
 import javax.inject.Inject;

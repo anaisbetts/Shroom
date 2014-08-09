@@ -1,22 +1,17 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.core;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.util.Log;
 
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
-import org.paulbetts.shroom.core.ActivityHelper;
-import org.paulbetts.shroom.core.DaggerApplication;
 
 import rx.Observable;
 import rx.functions.Func0;
 import rx.subjects.PublishSubject;
-import rx.*;
 import rx.subjects.ReplaySubject;
-import rx.subjects.Subject;
 
 /**
  * Created by paul on 8/1/14.

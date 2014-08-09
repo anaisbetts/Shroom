@@ -6,10 +6,8 @@ import android.content.Context;
 
 import org.paulbetts.shroom.CategoryDetailActivity;
 import org.paulbetts.shroom.CategoryListActivity;
-import org.paulbetts.shroom.CategoryListFragment;
 import org.paulbetts.shroom.WelcomeActivity;
-import org.paulbetts.shroom.core.DaggerApplication;
-import org.paulbetts.shroom.core.ForApplication;
+import org.paulbetts.shroom.helpers.ForApplication;
 
 import dagger.Module;
 import dagger.Provides;
@@ -36,7 +34,7 @@ public class AndroidModule {
 
     /**
      * Allow the application context to be injected but require that it be annotated with
-     * {@link org.paulbetts.shroom.core.ForApplication @Annotation} to explicitly differentiate it from an activity context.
+     * {@link org.paulbetts.shroom.helpers.ForApplication @Annotation} to explicitly differentiate it from an activity context.
      */
     @Provides @Singleton @ForApplication
     Context provideApplicationContext() {

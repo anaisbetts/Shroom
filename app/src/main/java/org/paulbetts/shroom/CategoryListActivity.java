@@ -2,9 +2,9 @@ package org.paulbetts.shroom;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 
 import org.paulbetts.shroom.core.AppSettings;
+import org.paulbetts.shroom.core.DriveBaseActivity;
 
 import javax.inject.Inject;
 
