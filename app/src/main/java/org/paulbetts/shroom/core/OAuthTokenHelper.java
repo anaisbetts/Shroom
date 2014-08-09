@@ -35,7 +35,7 @@ public class OAuthTokenHelper implements ActivityHelper {
 
     @Override
     public Observable<Boolean> initializeHelper(RxDaggerActivity activity) {
-        return activity.getLifecycleFor(LifecycleEvents.CREATE)
+        return activity.getLifecycleFor(LifecycleEvents.CREATE).take(1)
                 .flatMap(x -> loadAndVerifyToken(activity))
                 .map(token -> {
                     driveService = createDriveService(token);
@@ -73,6 +73,7 @@ public class OAuthTokenHelper implements ActivityHelper {
             public void intercept(RequestFacade request) {
                 request.addHeader("Authorization", "Bearer " + oauthToken);
                 request.addHeader("X-JavaScript-User-Agent", "Shroom");
+                request.addQueryParam("key", oauthToken);
             }
         };
 
