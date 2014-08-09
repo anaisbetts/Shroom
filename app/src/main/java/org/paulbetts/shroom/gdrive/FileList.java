@@ -12,7 +12,7 @@ public class FileList {
     @Expose
     private String selfLink;
     @Expose
-    private List<DriveItem> driveItems = new ArrayList<DriveItem>();
+    private List<DriveItem> items = new ArrayList<DriveItem>();
 
     public String getKind() {
         return kind;
@@ -38,11 +38,11 @@ public class FileList {
         this.selfLink = selfLink;
     }
 
-    public List<DriveItem> getDriveItems() {
-        return driveItems;
+    public List<DriveItem> getItems() {
+        return items;
     }
 
-    public void setDriveItems(List<DriveItem> driveItems) {
-        this.driveItems = driveItems;
+    public void setItems(List<DriveItem> items) {
+        this.items = items;
     }
 }
