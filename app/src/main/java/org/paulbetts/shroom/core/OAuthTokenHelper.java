@@ -4,12 +4,16 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import org.paulbetts.shroom.helpers.GDriveService;
 import org.paulbetts.shroom.helpers.GPlusService;
+
+import javax.inject.Inject;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -21,19 +25,23 @@ import rx.subjects.AsyncSubject;
  * Created by paul on 8/9/14.
  */
 public class OAuthTokenHelper implements ActivityHelper {
-    private String OAUTH_SCOPES = "oauth2:https://www.googleapis.com/auth/drive oauth2:https://www.googleapis.com/auth/userinfo.profile";
+    private String OAUTH_SCOPES = "oauth2:https://www.googleapis.com/auth/drive";
 
-    private String oauthToken = null;
+    public GDriveService driveService;
+
+    @Inject
+    public OAuthTokenHelper() {
+    }
 
     @Override
     public Observable<Boolean> initializeHelper(RxDaggerActivity activity) {
         return activity.getLifecycleFor(LifecycleEvents.CREATE)
                 .flatMap(x -> loadAndVerifyToken(activity))
-                .map(x -> {
-                    oauthToken = x;
+                .map(token -> {
+                    driveService = createDriveService(token);
 
                     SharedPreferences prefs = activity.getSharedPreferences("Settings", 0);
-                    prefs.edit().putString("authToken", oauthToken).commit();
+                    prefs.edit().putString("authToken", token).commit();
                     return true;
                 });
     }
@@ -48,10 +56,18 @@ public class OAuthTokenHelper implements ActivityHelper {
         });
 
         SharedPreferences prefs = activity.getSharedPreferences("Settings", 0);
-        oauthToken = prefs.getString("authToken", null);
+        String oauthToken = prefs.getString("authToken", null);
 
         if (oauthToken == null) return getNewKey;
 
+        GDriveService svc = createDriveService(oauthToken);
+
+        return svc.getUserInfo()
+                .map(x -> oauthToken)
+                .onErrorResumeNext(getNewKey);
+    }
+
+    private GDriveService createDriveService(String oauthToken) {
         RequestInterceptor tokenIntercepter = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
@@ -60,16 +76,12 @@ public class OAuthTokenHelper implements ActivityHelper {
             }
         };
 
-        RestAdapter gplusAdapter = new RestAdapter.Builder()
+        RestAdapter gdriveAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://www.googleapis.com")
                 .setRequestInterceptor(tokenIntercepter)
                 .build();
 
-        GPlusService svc = gplusAdapter.create(GPlusService.class);
-
-        return svc.getProfileInfo()
-                .map(x -> oauthToken)
-                .onErrorResumeNext(getNewKey);
+        return gdriveAdapter.create(GDriveService.class);
     }
 
     private Observable<Account> invokeAccountChooser(RxDaggerActivity activity) {
@@ -78,16 +90,18 @@ public class OAuthTokenHelper implements ActivityHelper {
 
         return activity.startObsActivityForResult(chooser, 0, 0)
                 .flatMap(x -> {
-                    if (x.getValue0() == Activity.RESULT_CANCELED) return Observable.error(new Exception("Operation Canceled"));
+                    if (x.getValue0() == Activity.RESULT_CANCELED)
+                        return Observable.error(new Exception("Operation Canceled"));
+
                     return Observable.just(x);
                 })
-                .map(x -> {
+                .flatMap(x -> {
                     String name = x.getValue1().getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    for(Account needle: acMgr.getAccountsByType("com.google")) {
-                        if (needle.name == name) return needle;
+                    for (Account needle : acMgr.getAccountsByType("com.google")) {
+                        if (needle.name.equals(name)) return Observable.just(needle);
                     }
 
-                    return (Account)null;
+                    return Observable.error(new OperationCanceledException());
                 });
     }
 
@@ -100,6 +114,10 @@ public class OAuthTokenHelper implements ActivityHelper {
             public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
                 try {
                     String token = bundleAccountManagerFuture.getResult().getString(AccountManager.KEY_AUTHTOKEN);
+
+                    SharedPreferences prefs = activity.getSharedPreferences("Settings", 0);
+                    prefs.edit().putString("oauthAccount", acct.name).commit();
+
                     ret.onNext(token);
                     ret.onCompleted();
                 } catch (Exception ex) {

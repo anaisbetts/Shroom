@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.paulbetts.shroom.core.AppSettingsHelper;
+import org.paulbetts.shroom.core.OAuthTokenHelper;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 
 import javax.inject.Inject;
@@ -36,11 +37,14 @@ public class CategoryListActivity extends RxDaggerActivity
     @Inject
     AppSettingsHelper appSettings;
 
+    @Inject
+    OAuthTokenHelper oauthTokens;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        applyActivityHelpers(appSettings).subscribe(x -> {
+        applyActivityHelpers(appSettings, oauthTokens).subscribe(x -> {
             setContentView(R.layout.activity_category_list);
 
             if (x == false) finish();
