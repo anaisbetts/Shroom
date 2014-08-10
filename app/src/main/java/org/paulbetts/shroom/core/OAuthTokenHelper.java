@@ -25,12 +25,17 @@ import rx.subjects.AsyncSubject;
  * Created by paul on 8/9/14.
  */
 public class OAuthTokenHelper implements ActivityHelper {
-    private String OAUTH_SCOPES = "oauth2:https://www.googleapis.com/auth/drive";
+    private static final String OAUTH_SCOPES = "oauth2:https://www.googleapis.com/auth/drive";
+    private String oauthToken;
 
     public GDriveService driveService;
 
     @Inject
     public OAuthTokenHelper() {
+    }
+
+    public OAuthTokenHelper(Bundle fromBundle) {
+        driveService = createDriveService(fromBundle.getString("oauthToken"));
     }
 
     @Override
@@ -39,11 +44,16 @@ public class OAuthTokenHelper implements ActivityHelper {
                 .flatMap(x -> loadAndVerifyToken(activity))
                 .map(token -> {
                     driveService = createDriveService(token);
+                    this.oauthToken = token;
 
                     SharedPreferences prefs = activity.getSharedPreferences("Settings", 0);
                     prefs.edit().putString("authToken", token).commit();
                     return true;
                 });
+    }
+
+    public void serializeToBundle(Bundle bundle) {
+        bundle.putString("authToken", oauthToken);
     }
 
     private Observable<String> loadAndVerifyToken(RxDaggerActivity activity) {
