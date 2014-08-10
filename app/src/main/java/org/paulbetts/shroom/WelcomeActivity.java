@@ -28,7 +28,7 @@ public class WelcomeActivity extends RxDaggerActivity {
 
         this.setResult(RESULT_CANCELED);
 
-        Button chooseFolder = (Button) findViewById(R.id.chooseFolderInDrive);
+        Button chooseFolder = (Button) findViewById(R.id.choose_folder_in_drive);
         chooseFolder.setClickable(false);
 
         applyActivityHelpers(appSettings, oauthTokens).subscribe(applyWorked -> {
