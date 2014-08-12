@@ -32,6 +32,8 @@ public abstract class ReactiveListAdapter<T> extends RecyclerView.Adapter<ModelV
                 break;
             }
         });
+
+        this.notifyDataSetChanged();
     }
 
     @Override
