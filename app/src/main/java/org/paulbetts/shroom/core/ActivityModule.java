@@ -17,17 +17,19 @@ import dagger.Provides;
                 CategoryListActivity.class,
                 CategoryDetailActivity.class,
                 WelcomeActivity.class,
+                AppSettingsMixin.class,
+                OAuthTokenMixin.class,
         },
         addsTo = AndroidModule.class,
         library = true
 )
 public class ActivityModule {
-    private final RxDaggerActivity activity;
-    private final AppSettingsMixin appSettingsMixin;
+    private RxDaggerActivity activity;
+    private AppSettingsMixin appSettingsMixin = null;
+    private OAuthTokenMixin oAuthTokenMixin = null;
 
     public ActivityModule(RxDaggerActivity activity) {
         this.activity = activity;
-        appSettingsMixin = new AppSettingsMixin();
     }
 
     @Provides @Singleton RxDaggerActivity providesDaggerActivity(){
@@ -35,6 +37,19 @@ public class ActivityModule {
     }
 
     @Provides @Singleton AppSettingsMixin providesAppSettings() {
+        if (appSettingsMixin == null) {
+            appSettingsMixin = new AppSettingsMixin();
+            activity.inject(appSettingsMixin);
+        }
         return appSettingsMixin;
+    }
+
+    @Provides @Singleton OAuthTokenMixin providesAuthToken() {
+        if (oAuthTokenMixin == null) {
+            oAuthTokenMixin = new OAuthTokenMixin();
+            activity.inject(oAuthTokenMixin);
+        }
+
+        return oAuthTokenMixin;
     }
 }

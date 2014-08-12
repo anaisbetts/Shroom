@@ -14,6 +14,7 @@ import org.javatuples.Pair;
 import org.paulbetts.shroom.helpers.GDriveService;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -43,8 +44,7 @@ public class OAuthTokenMixin implements ElementMixin {
 
     @Override
     public Observable<Boolean> initializeHelper(RxDaggerElement activity) {
-        return Lifecycle.getLifecycleFor(activity, LifecycleEvents.CREATE).take(1)
-                .flatMap(x -> loadAndVerifyToken(activity))
+        return loadAndVerifyToken(activity)
                 .map(token -> {
                     driveService = createDriveService(token);
                     this.oauthToken = token;
@@ -52,6 +52,10 @@ public class OAuthTokenMixin implements ElementMixin {
                     appSettings.setGDriveOAuthToken(token);
                     return true;
                 });
+    }
+
+    public void forgetExistingToken() {
+        appSettings.setGDriveOAuthToken(null);
     }
 
     private Observable<String> loadAndVerifyToken(RxDaggerElement activity) {

@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 
 import rx.Observable;
 
-@Singleton
 public class AppSettingsMixin implements ElementMixin {
     private SharedPreferences prefs;
 
