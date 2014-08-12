@@ -16,7 +16,7 @@ public class DaggerApplication extends Application {
         graph = ObjectGraph.create(new AndroidModule(this));
     }
 
-    public void inject(Object target){
-        graph.inject(target);
-    }
+    public void inject(Object target){ graph.inject(target); }
+
+    public ObjectGraph getApplicationGraph() { return graph; }
 }
