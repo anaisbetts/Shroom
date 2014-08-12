@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.view.View;
 
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
@@ -76,6 +77,10 @@ public abstract class RxDaggerActivity extends Activity implements RxDaggerEleme
         return null;
     }
 
+    public View getRootView() {
+        return this.findViewById(android.R.id.content);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,20 +125,20 @@ public abstract class RxDaggerActivity extends Activity implements RxDaggerEleme
 
     @Override
     protected void onPause() {
-        super.onPause();
         lifecycleEvents.onNext(LifecycleEvents.PAUSE);
+        super.onPause();
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
         lifecycleEvents.onNext(LifecycleEvents.STOP);
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         lifecycleEvents.onNext(LifecycleEvents.DESTROY);
+        super.onDestroy();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.paulbetts.shroom.core;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import rx.subjects.ReplaySubject;
 /**
  * Created by paul on 8/12/14.
  */
-public abstract class RxDaggerFragment extends Fragment implements RxDaggerElement {
+public class RxDaggerListFragment extends ListFragment  {
     private ReplaySubject<LifecycleEvents> lifecycleEvents = ReplaySubject.create(1);
     private Bundle currentBundle = null;
     private Activity currentActivity = null;
