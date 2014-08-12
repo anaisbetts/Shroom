@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 
 public class DriveItem {
-
     @Expose
     private String kind;
     @Expose
@@ -327,4 +326,20 @@ public class DriveItem {
         this.headRevisionId = headRevisionId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DriveItem driveItem = (DriveItem) o;
+
+        if (!id.equals(driveItem.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

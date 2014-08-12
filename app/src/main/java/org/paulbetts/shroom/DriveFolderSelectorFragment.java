@@ -32,7 +32,7 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
     private ReactiveArrayList<DriveItem> rootFolders = new ReactiveArrayList<>();
 
     @Inject
-    OAuthTokenMixin oauthToken;
+    CategoryScanners scanners;
 
     @Inject
     RxDaggerActivity hostActivity;
@@ -46,11 +46,11 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
         View ret = inflater.inflate(R.layout.fragment_drive_folder_selector, container, false);
         RecyclerView list = (RecyclerView)ret.findViewById(R.id.folder_list);
 
-        oauthToken.driveService.listRoot()
-                .timeout(5, TimeUnit.SECONDS).retry(2)
+        scanners.performFullScan()
+                //.timeout(5, TimeUnit.SECONDS).retry(2)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(x -> {
-                    for(DriveItem di: x.getItems()) {
+                    for(DriveItem di: x) {
                         rootFolders.add(di);
                     }
                 });
