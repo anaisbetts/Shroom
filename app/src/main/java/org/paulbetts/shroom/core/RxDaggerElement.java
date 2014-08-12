@@ -1,6 +1,7 @@
 package org.paulbetts.shroom.core;
 
 import android.os.Bundle;
+import android.view.View;
 
 import rx.Observable;
 
@@ -10,6 +11,7 @@ import rx.Observable;
 public interface RxDaggerElement {
     Observable<LifecycleEvents> getLifecycleEvents();
     Bundle getCurrentBundle();
+    View getRootView();
 
     void inject(Object target);
 }
