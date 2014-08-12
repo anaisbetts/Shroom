@@ -10,8 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import org.javatuples.Pair;
 import org.paulbetts.shroom.helpers.GDriveService;
-import org.paulbetts.shroom.helpers.GPlusService;
 
 import javax.inject.Inject;
 
@@ -19,59 +19,54 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import rx.Observable;
 import rx.functions.Func0;
+import rx.functions.Func1;
 import rx.subjects.AsyncSubject;
 
 /**
  * Created by paul on 8/9/14.
  */
-public class OAuthTokenHelper implements ActivityHelper {
+public class OAuthTokenMixin implements ElementMixin {
     private static final String OAUTH_SCOPES = "oauth2:https://www.googleapis.com/auth/drive";
     private String oauthToken;
 
     public GDriveService driveService;
 
     @Inject
-    public OAuthTokenHelper() {
-    }
+    AppSettingsMixin appSettings;
 
-    public OAuthTokenHelper(Bundle fromBundle) {
-        driveService = createDriveService(fromBundle.getString("oauthToken"));
+    @Inject
+    RxDaggerActivity hostActivity;
+
+    @Inject
+    public OAuthTokenMixin() {
     }
 
     @Override
-    public Observable<Boolean> initializeHelper(RxDaggerActivity activity) {
-        return activity.getLifecycleFor(LifecycleEvents.CREATE).take(1)
+    public Observable<Boolean> initializeHelper(RxDaggerElement activity) {
+        return Lifecycle.getLifecycleFor(activity, LifecycleEvents.CREATE).take(1)
                 .flatMap(x -> loadAndVerifyToken(activity))
                 .map(token -> {
                     driveService = createDriveService(token);
                     this.oauthToken = token;
 
-                    SharedPreferences prefs = activity.getSharedPreferences("Settings", 0);
-                    prefs.edit().putString("authToken", token).commit();
+                    appSettings.setGDriveOAuthToken(token);
                     return true;
                 });
     }
 
-    public void serializeToBundle(Bundle bundle) {
-        bundle.putString("authToken", oauthToken);
-    }
-
-    private Observable<String> loadAndVerifyToken(RxDaggerActivity activity) {
+    private Observable<String> loadAndVerifyToken(RxDaggerElement activity) {
         Observable<String> getNewKey = Observable.defer(new Func0<Observable<? extends String>>() {
             @Override
             public Observable<? extends String> call() {
-                return invokeAccountChooser(activity)
-                        .flatMap(x -> getTokenForAccount(x, activity));
+                return invokeAccountChooser(hostActivity)
+                        .flatMap(x -> getTokenForAccount(x, hostActivity));
             }
         });
 
-        SharedPreferences prefs = activity.getSharedPreferences("Settings", 0);
-        String oauthToken = prefs.getString("authToken", null);
-
+        String oauthToken = appSettings.getGDriveOAuthToken();
         if (oauthToken == null) return getNewKey;
 
         GDriveService svc = createDriveService(oauthToken);
-
         return svc.getUserInfo()
                 .map(x -> oauthToken)
                 .onErrorResumeNext(getNewKey);

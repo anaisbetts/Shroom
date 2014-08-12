@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-import org.paulbetts.shroom.core.AppSettingsHelper;
-import org.paulbetts.shroom.core.OAuthTokenHelper;
+import org.paulbetts.shroom.core.AppSettingsMixin;
+import org.paulbetts.shroom.core.Lifecycle;
+import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 import org.paulbetts.shroom.gdrive.DriveItem;
 
@@ -13,10 +14,10 @@ import javax.inject.Inject;
 
 public class WelcomeActivity extends RxDaggerActivity {
     @Inject
-    AppSettingsHelper appSettings;
+    AppSettingsMixin appSettings;
 
     @Inject
-    OAuthTokenHelper oauthTokens;
+    OAuthTokenMixin oauthTokens;
 
     @Inject
     CategoryScanners scanners;
@@ -31,7 +32,7 @@ public class WelcomeActivity extends RxDaggerActivity {
         Button chooseFolder = (Button) findViewById(R.id.choose_folder_in_drive);
         chooseFolder.setClickable(false);
 
-        applyActivityHelpers(appSettings, oauthTokens).subscribe(applyWorked -> {
+        Lifecycle.applyActivityHelpers(this, appSettings, oauthTokens).subscribe(applyWorked -> {
             chooseFolder.setOnClickListener(view -> {
                 oauthTokens.driveService.list("title contains 'smc'")
                         .subscribe(x -> {
