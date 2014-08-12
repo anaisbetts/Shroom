@@ -21,10 +21,14 @@ public final class ListChangedNotification<TList> {
     }
 
     public static <T> ListChangedNotification<T> add(int index, T item) {
-        return new ListChangedNotification<T>(ListChangedType.ADD, index, IterableEx.justIterable(item), index, IterableEx.emptyIterable());
+        return new ListChangedNotification<T>(ListChangedType.ADD, index, IterableEx.just(item), index, IterableEx.empty());
     }
 
     public static <T> ListChangedNotification<T> remove(int index, T item) {
-        return new ListChangedNotification<T>(ListChangedType.REMOVE, index, IterableEx.emptyIterable(), index, IterableEx.justIterable(item));
+        return new ListChangedNotification<T>(ListChangedType.REMOVE, index, IterableEx.empty(), index, IterableEx.just(item));
+    }
+
+    public static <T> ListChangedNotification<T> reset() {
+        return new ListChangedNotification<T>(ListChangedType.RESET, 0, IterableEx.empty(), 0, IterableEx.empty());
     }
 }
