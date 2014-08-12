@@ -25,7 +25,8 @@ public class ReactiveArrayList<T> implements List<T>, Serializable, RandomAccess
 
     @Override
     public void add(int i, T t) {
-
+        innerList.add(i, t);
+        changed.onNext(ListChangedNotification.add(i, t));
     }
 
     @Override
@@ -36,17 +37,22 @@ public class ReactiveArrayList<T> implements List<T>, Serializable, RandomAccess
 
     @Override
     public boolean addAll(int i, Collection<? extends T> ts) {
-        return false;
+        boolean ret = innerList.addAll(i, ts);
+        if (!ret) return ret;
+
+        changed.onNext(new ListChangedNotification<>(ListChangedType.ADD, i, (Iterable<T>)ts, i, IterableEx.empty()));
+        return ret;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> ts) {
-        return false;
+        return this.addAll(innerList.size(), ts);
     }
 
     @Override
     public void clear() {
-
+        innerList.clear();
+        changed.onNext(ListChangedNotification.reset());
     }
 
     @Override
@@ -102,17 +108,30 @@ public class ReactiveArrayList<T> implements List<T>, Serializable, RandomAccess
 
     @Override
     public T remove(int i) {
-        return null;
+        T ret = innerList.remove(i);
+        changed.onNext(ListChangedNotification.remove(i, ret));
+        return ret;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int index = innerList.indexOf(o);
+        if (index < 0) return false;
+
+        this.remove(index);
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> objects) {
-        return false;
+        boolean ret = false;
+
+        // XXX: Replace this with range at some point
+        for(Object obj: objects) {
+            ret |= this.remove(obj);
+        }
+
+        return ret;
     }
 
     @Override
@@ -122,7 +141,11 @@ public class ReactiveArrayList<T> implements List<T>, Serializable, RandomAccess
 
     @Override
     public T set(int i, T t) {
-        return null;
+        T old = innerList.get(i);
+
+        innerList.set(i, t);
+        changed.onNext(new ListChangedNotification<T>(ListChangedType.REPLACE, i, IterableEx.just(old), i, IterableEx.just(t)));
+        return old;
     }
 
     @Override
@@ -158,81 +181,5 @@ public class ReactiveArrayList<T> implements List<T>, Serializable, RandomAccess
             throws IOException, ClassNotFoundException {
         // Don't serialize the Subject, only the actual data
         innerList = (ArrayList<T>)in.readObject();
-    }
-
-    public enum ListChangedType {
-        ADD, REMOVE, REPLACE, MOVE, RESET,
-    }
-
-    public final class ListChangedNotification<TList> {
-        public ListChangedType type;
-
-        public int newStartingIndex;
-        public Iterable<TList> newItems;
-
-        public int oldStartingIndex;
-        public Iterable<TList> oldItems;
-
-        public ListChangedNotification(ListChangedType type, int newStartingIndex, Iterable<TList> newItems, int oldStartingIndex, Iterable<TList> oldItems) {
-            this.type = type;
-            this.newStartingIndex = newStartingIndex;
-            this.newItems = newItems;
-            this.oldStartingIndex = oldStartingIndex;
-            this.oldItems = oldItems;
-        }
-    }
-
-    Iterable<T> justIterable(T item) {
-        return new Iterable<T>() {
-            boolean hasNext = false;
-
-            @Override
-            public Iterator<T> iterator() {
-                return new Iterator<T>() {
-                    @Override
-                    public boolean hasNext() {
-                        return hasNext;
-                    }
-
-                    @Override
-                    public T next() {
-                        hasNext = false;
-                        return item;
-                    }
-
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-                };
-            }
-        };
-    }
-
-    Iterable<T> empty = null;
-    Iterable<T> emptyIterable() {
-        empty = (empty != null ? empty : new Iterable<T>() {
-            @Override
-            public Iterator<T> iterator() {
-                return new Iterator<T>() {
-                    @Override
-                    public boolean hasNext() {
-                        return false;
-                    }
-
-                    @Override
-                    public T next() {
-                        throw new UnsupportedOperationException();
-                    }
-
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-                };
-            }
-        });
-
-        return empty;
     }
 }
