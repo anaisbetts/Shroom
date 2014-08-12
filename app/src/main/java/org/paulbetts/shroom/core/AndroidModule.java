@@ -19,9 +19,7 @@ import javax.inject.Singleton;
  */
 @Module(
         injects = {
-                CategoryListActivity.class,
-                CategoryDetailActivity.class,
-                WelcomeActivity.class,
+
         },
         library = true
 )
