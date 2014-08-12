@@ -1,5 +1,7 @@
 package org.paulbetts.shroom;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -12,6 +14,9 @@ import org.paulbetts.shroom.gdrive.DriveItem;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class WelcomeActivity extends RxDaggerActivity {
     @Inject
     AppSettingsMixin appSettings;
@@ -22,17 +27,22 @@ public class WelcomeActivity extends RxDaggerActivity {
     @Inject
     CategoryScanners scanners;
 
-    @Override
+    @Inject
+    WelcomeAuthFragment authFragment;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        ButterKnife.inject(this);
 
         this.setResult(RESULT_CANCELED);
 
-        Button chooseFolder = (Button) findViewById(R.id.choose_folder_in_drive);
-        chooseFolder.setClickable(false);
+        Lifecycle.applyActivityHelpers(this, appSettings).subscribe(applyWorked -> {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.welcome_content, authFragment)
+                    .commit();
 
-        Lifecycle.applyActivityHelpers(this, appSettings, oauthTokens).subscribe(applyWorked -> {
+            /*
             chooseFolder.setOnClickListener(view -> {
                 oauthTokens.driveService.list("title contains 'smc'")
                         .subscribe(x -> {
@@ -40,6 +50,7 @@ public class WelcomeActivity extends RxDaggerActivity {
                                 Log.i("WelcomeActivity", di.getTitle());
                             }
                         });
+                        */
 
                 /*
                 this.startObsIntentSenderForResult(sender, android.R.anim.fade_in, android.R.anim.fade_out)
@@ -55,10 +66,8 @@ public class WelcomeActivity extends RxDaggerActivity {
                             WelcomeActivity.this.setResult(RESULT_OK);
                             WelcomeActivity.this.finish();
                         });
-                        */
             });
-
-            chooseFolder.setClickable(true);
+                        */
         });
     }
 

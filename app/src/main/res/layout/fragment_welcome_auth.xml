@@ -1,13 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="org.paulbetts.shroom.WelcomeAuthFragment">
+    tools:context="org.paulbetts.shroom.WelcomeAuthFragment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:contentDescription="App Logo"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_gravity="center_horizontal" />
 
-</FrameLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:text="Log into Google Drive"
+        android:id="@+id/auth_gdrive" />
+</LinearLayout>

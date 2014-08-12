@@ -41,6 +41,10 @@ public abstract class RxDaggerFragment extends Fragment implements RxDaggerEleme
         this.createViewOverride = createViewOverride;
     }
 
+    public void inject(Object target) {
+        ((RxDaggerActivity)currentActivity).inject(target);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

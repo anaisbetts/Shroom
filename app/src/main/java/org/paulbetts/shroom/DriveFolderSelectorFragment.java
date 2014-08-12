@@ -13,6 +13,7 @@ import org.paulbetts.shroom.core.ModelViewHolder;
 import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.ReactiveArrayList;
 import org.paulbetts.shroom.core.ReactiveListAdapter;
+import org.paulbetts.shroom.core.RxDaggerFragment;
 import org.paulbetts.shroom.gdrive.DriveItem;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DriveFolderSelectorFragment extends Fragment {
+public class DriveFolderSelectorFragment extends RxDaggerFragment {
     private ReactiveArrayList<DriveItem> rootFolders = new ReactiveArrayList<>();
 
     @Inject
