@@ -20,6 +20,8 @@ import org.paulbetts.shroom.core.RxDaggerElement;
 import org.paulbetts.shroom.core.RxDaggerFragment;
 import org.paulbetts.shroom.gdrive.DriveItem;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -44,7 +46,8 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
         View ret = inflater.inflate(R.layout.fragment_drive_folder_selector, container, false);
         RecyclerView list = (RecyclerView)ret.findViewById(R.id.folder_list);
 
-        oauthToken.driveService.list("")
+        oauthToken.driveService.listRoot()
+                .timeout(5, TimeUnit.SECONDS).retry(2)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(x -> {
                     for(DriveItem di: x.getItems()) {
