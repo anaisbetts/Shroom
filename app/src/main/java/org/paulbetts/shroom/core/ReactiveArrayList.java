@@ -10,8 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import rx.Observable;
+import rx.Subscription;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
+import rx.subscriptions.Subscriptions;
 
 /**
  * Created by paul on 8/10/14.
@@ -19,8 +24,27 @@ import rx.subjects.PublishSubject;
 public class ReactiveArrayList<T> implements List<T>, Serializable, RandomAccess {
     private ArrayList<T> innerList = new ArrayList<>();
     private final PublishSubject<ListChangedNotification<T>> changed = PublishSubject.create();
+    private int suppressCount = 0;
 
     public ReactiveArrayList() {
+    }
+
+    public Observable<ListChangedNotification<T>> getChanged() {
+        return changed.filter(x -> suppressCount == 0);
+    }
+
+    public Subscription suppressChangeNotifications() {
+        suppressCount++;
+        return Subscriptions.create(() -> {
+            suppressCount--;
+            if (suppressCount > 0) return;
+
+            changed.onNext(ListChangedNotification.<T>reset());
+        });
+    }
+
+    public void Reset() {
+        changed.onNext(ListChangedNotification.<T>reset());
     }
 
     @Override
