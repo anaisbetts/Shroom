@@ -2,6 +2,7 @@ package org.paulbetts.shroom;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -48,6 +49,8 @@ public class WelcomeActivity extends RxDaggerActivity {
             authFragment.getLoginComplete().subscribe(x -> {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.welcome_content, driveSelectorFragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack(null)
                         .commit();
             });
 
