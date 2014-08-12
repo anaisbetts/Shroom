@@ -1,8 +1,6 @@
 package org.paulbetts.shroom;
 
 import android.app.Activity;
-import android.graphics.AvoidXfermode;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -12,37 +10,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.paulbetts.shroom.core.ModelViewHolder;
-import org.paulbetts.shroom.core.OAuthTokenHelper;
+import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.ReactiveArrayList;
 import org.paulbetts.shroom.core.ReactiveListAdapter;
 import org.paulbetts.shroom.gdrive.DriveItem;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class DriveFolderSelectorFragment extends Fragment {
-    private OAuthTokenHelper oauthToken;
     private ReactiveArrayList<DriveItem> rootFolders = new ReactiveArrayList<>();
 
-    public static DriveFolderSelectorFragment create(OAuthTokenHelper tokenHelper) {
-        DriveFolderSelectorFragment fragment = new DriveFolderSelectorFragment();
-        Bundle args = new Bundle();
-        tokenHelper.serializeToBundle(args);
-
-        fragment.setArguments(args);
-        return fragment;
-    }
+    @Inject
+    OAuthTokenMixin oauthToken;
 
     public DriveFolderSelectorFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            oauthToken = new OAuthTokenHelper(savedInstanceState);
-        }
     }
 
     @Override
