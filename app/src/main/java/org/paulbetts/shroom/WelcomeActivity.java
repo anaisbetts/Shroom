@@ -30,6 +30,9 @@ public class WelcomeActivity extends RxDaggerActivity {
     @Inject
     WelcomeAuthFragment authFragment;
 
+    @Inject
+    DriveFolderSelectorFragment driveSelectorFragment;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
@@ -41,6 +44,12 @@ public class WelcomeActivity extends RxDaggerActivity {
             getFragmentManager().beginTransaction()
                     .replace(R.id.welcome_content, authFragment)
                     .commit();
+
+            authFragment.getLoginComplete().subscribe(x -> {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.welcome_content, driveSelectorFragment)
+                        .commit();
+            });
 
             /*
             chooseFolder.setOnClickListener(view -> {

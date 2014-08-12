@@ -2,7 +2,9 @@ package org.paulbetts.shroom.core;
 
 import org.paulbetts.shroom.CategoryDetailActivity;
 import org.paulbetts.shroom.CategoryListActivity;
+import org.paulbetts.shroom.DriveFolderSelectorFragment;
 import org.paulbetts.shroom.WelcomeActivity;
+import org.paulbetts.shroom.WelcomeAuthFragment;
 
 import javax.inject.Singleton;
 
@@ -17,6 +19,8 @@ import dagger.Provides;
                 CategoryListActivity.class,
                 CategoryDetailActivity.class,
                 WelcomeActivity.class,
+                WelcomeAuthFragment.class,
+                DriveFolderSelectorFragment.class,
                 AppSettingsMixin.class,
                 OAuthTokenMixin.class,
         },

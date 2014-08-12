@@ -33,9 +33,6 @@ public class OAuthTokenMixin implements ElementMixin {
     public GDriveService driveService;
 
     @Inject
-    AppSettingsMixin appSettings;
-
-    @Inject
     RxDaggerActivity hostActivity;
 
     @Inject
@@ -49,13 +46,17 @@ public class OAuthTokenMixin implements ElementMixin {
                     driveService = createDriveService(token);
                     this.oauthToken = token;
 
-                    appSettings.setGDriveOAuthToken(token);
+                    hostActivity.getSharedPreferences("tokens", 0).edit()
+                            .putString("gdrive", token)
+                            .commit();
                     return true;
                 });
     }
 
     public void forgetExistingToken() {
-        appSettings.setGDriveOAuthToken(null);
+        hostActivity.getSharedPreferences("tokens", 0).edit()
+                .putString("gdrive", null)
+                .commit();
     }
 
     private Observable<String> loadAndVerifyToken(RxDaggerElement activity) {
@@ -67,7 +68,8 @@ public class OAuthTokenMixin implements ElementMixin {
             }
         });
 
-        String oauthToken = appSettings.getGDriveOAuthToken();
+        String oauthToken = hostActivity.getSharedPreferences("tokens", 0)
+                .getString("gdrive", null);
         if (oauthToken == null) return getNewKey;
 
         GDriveService svc = createDriveService(oauthToken);
