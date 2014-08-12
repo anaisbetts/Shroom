@@ -8,6 +8,10 @@ import android.os.Bundle;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
+import java.util.List;
+
+import dagger.Module;
+import dagger.ObjectGraph;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.subjects.PublishSubject;
@@ -16,29 +20,18 @@ import rx.subjects.ReplaySubject;
 /**
  * Created by paul on 8/1/14.
  */
-public abstract class RxDaggerActivity extends Activity {
+public abstract class RxDaggerActivity extends Activity implements RxDaggerElement {
     private ReplaySubject<LifecycleEvents> lifecycleEvents = ReplaySubject.create(1);
     private Bundle currentBundle = null;
+    private PublishSubject<Triplet<Integer, Integer, Intent>> activityResult = PublishSubject.create();
+    private ObjectGraph activityGraph;
 
     public Observable<LifecycleEvents> getLifecycleEvents() {
         return lifecycleEvents;
     }
-
     public Bundle getCurrentBundle() {
         return currentBundle;
     }
-
-    public Observable<LifecycleEvents> getLifecycleFor(LifecycleEvents... events) {
-        return getLifecycleEvents().filter(x -> {
-            for(LifecycleEvents ev: events) {
-                if (x == ev) return true;
-            }
-
-            return false;
-        });
-    }
-
-    PublishSubject<Triplet<Integer, Integer, Intent>> activityResult = PublishSubject.create();
 
     public Observable<Triplet<Integer, Integer, Intent>> getActivityResult() {
         return activityResult;
@@ -75,18 +68,12 @@ public abstract class RxDaggerActivity extends Activity {
                 .publishLast().refCount();
     }
 
-    public Observable<Boolean> applyActivityHelpers(ActivityHelper... helpers){
-        // NB: Compiler isn't clever enough to infer type :(
-        return getLifecycleFor(LifecycleEvents.CREATE)
-                .take(1)
-                .flatMap(x -> Observable.from(helpers))
-                .concatMap(x -> Observable.defer(new Func0<Observable<Boolean>>() {
-                    @Override
-                    public Observable<Boolean> call() {
-                        return x.initializeHelper(RxDaggerActivity.this);
-                    }
-                }))
-                .reduce((Boolean) true, (acc, x) -> acc && x);
+    public void inject(Object target) {
+        activityGraph.inject(target);
+    }
+
+    protected List<Module> getModules() {
+        return null;
     }
 
     @Override
@@ -98,7 +85,15 @@ public abstract class RxDaggerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((DaggerApplication)getApplication()).inject(this);
+
+        activityGraph = ((DaggerApplication)getApplication()).getApplicationGraph()
+                .plus(new ActivityModule(this));
+        List<Module> modules = getModules();
+        if (modules != null) {
+            activityGraph = activityGraph.plus(modules.toArray());
+        }
+
+        inject(this);
 
         currentBundle = savedInstanceState;
         lifecycleEvents.onNext(LifecycleEvents.CREATE);
