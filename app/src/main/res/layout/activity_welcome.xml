@@ -8,12 +8,10 @@
     android:paddingBottom="64dp"
     tools:context="org.paulbetts.shroom.WelcomeActivity">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/welcome_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:name="org.paulbetts.shroom.WelcomeAuthFragment"
         tools:layout="@layout/fragment_welcome_auth" />
-
 </FrameLayout>

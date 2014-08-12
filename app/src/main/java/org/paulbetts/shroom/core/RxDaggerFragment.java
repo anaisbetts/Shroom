@@ -48,6 +48,8 @@ public abstract class RxDaggerFragment extends Fragment implements RxDaggerEleme
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        currentActivity = activity;
+        inject(this);
 
         currentActivity = activity;
         lifecycleEvents.onNext(LifecycleEvents.ATTACH);
@@ -57,6 +59,7 @@ public abstract class RxDaggerFragment extends Fragment implements RxDaggerEleme
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         currentBundle = savedInstanceState;
         lifecycleEvents.onNext(LifecycleEvents.CREATE);
         currentBundle = null;

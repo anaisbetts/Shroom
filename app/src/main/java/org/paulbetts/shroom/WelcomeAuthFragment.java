@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observable;
 import rx.android.observables.ViewObservable;
+import rx.subjects.PublishSubject;
 
 public class WelcomeAuthFragment extends RxDaggerFragment {
     @InjectView(R.id.auth_gdrive) Button authGDrive = null;
@@ -38,11 +39,18 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
         View ret = inflater.inflate(R.layout.fragment_welcome_auth, container, false);
         ButterKnife.inject(this, ret);
 
-        oAuthTokenMixin.forgetExistingToken();
         ViewObservable.clicks(authGDrive, false)
-                .flatMap(x -> oAuthTokenMixin.initializeHelper(this).onErrorResumeNext(Observable.never()))
-                .subscribe(x -> Log.i("Shroom", "Logged into GDrive successfully"));
+                .doOnNext(x -> oAuthTokenMixin.forgetExistingToken())
+                .flatMap(x -> oAuthTokenMixin.initializeHelper(this))
+                .doOnNext(x -> Log.i("Shroom", "Logged into GDrive successfully"))
+                .multicast(loginComplete)
+                .connect();
 
         return ret;
+    }
+
+    private PublishSubject<Boolean> loginComplete = PublishSubject.create();
+    public Observable<Boolean> getLoginComplete() {
+        return loginComplete;
     }
 }
