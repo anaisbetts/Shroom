@@ -1,10 +1,14 @@
 package org.paulbetts.shroom.core;
 
+import com.dropbox.client2.DropboxAPI;
+
 import org.paulbetts.shroom.CategoryDetailActivity;
 import org.paulbetts.shroom.CategoryListActivity;
 import org.paulbetts.shroom.DriveFolderSelectorFragment;
 import org.paulbetts.shroom.WelcomeActivity;
 import org.paulbetts.shroom.WelcomeAuthFragment;
+import org.paulbetts.shroom.cloudapi.CloudFileApi;
+import org.paulbetts.shroom.cloudapi.DropboxFileApi;
 
 import javax.inject.Singleton;
 
@@ -31,6 +35,7 @@ public class ActivityModule {
     private RxDaggerActivity activity;
     private AppSettingsMixin appSettingsMixin = null;
     private OAuthTokenMixin oAuthTokenMixin = null;
+    private CloudFileApi cloudFileApi = null;
 
     public ActivityModule(RxDaggerActivity activity) {
         this.activity = activity;
@@ -55,5 +60,14 @@ public class ActivityModule {
         }
 
         return oAuthTokenMixin;
+    }
+
+    @Provides @Singleton CloudFileApi providesDropboxApi() {
+        if (cloudFileApi == null) {
+            cloudFileApi = new DropboxFileApi();
+            activity.inject(cloudFileApi);
+        }
+
+        return cloudFileApi;
     }
 }

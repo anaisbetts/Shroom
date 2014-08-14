@@ -2,11 +2,9 @@ package org.paulbetts.shroom;
 
 import android.media.Image;
 
-import com.google.android.gms.drive.DriveId;
-
 import java.util.Date;
 
-import rx.*;
+import rx.Observable;
 
 public class PlayableRom {
     public PlayableRom(Date createdAt, Date lastPlayedAt, String romDriveId, String friendlyTitle, boolean isStarred, Observable<Image> imageToBeLoaded) {

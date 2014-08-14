@@ -1,14 +1,12 @@
 package org.paulbetts.shroom;
 
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import org.paulbetts.shroom.core.Lifecycle;
 import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 import org.paulbetts.shroom.core.RxDaggerFragment;
@@ -42,7 +40,7 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
         ViewObservable.clicks(authGDrive, false)
                 .doOnNext(x -> oAuthTokenMixin.forgetExistingToken())
                 .flatMap(x -> oAuthTokenMixin.initializeHelper(this))
-                .doOnNext(x -> Log.i("Shroom", "Logged into GDrive successfully"))
+                .doOnNext(x -> Log.i("Shroom", "Logged into Cloud File Backend successfully"))
                 .multicast(loginComplete)
                 .connect();
 

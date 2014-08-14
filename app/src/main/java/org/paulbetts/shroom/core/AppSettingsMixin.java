@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import org.paulbetts.shroom.WelcomeActivity;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import rx.Observable;
 
@@ -36,13 +35,5 @@ public class AppSettingsMixin implements ElementMixin {
         } else {
             return Observable.from(Boolean.TRUE);
         }
-    }
-
-    String getGDriveOAuthToken() {
-        return prefs.getString("oauthToken", null);
-    }
-
-    void setGDriveOAuthToken(String newToken) {
-        prefs.edit().putString("oauthToken", newToken).commit();
     }
 }

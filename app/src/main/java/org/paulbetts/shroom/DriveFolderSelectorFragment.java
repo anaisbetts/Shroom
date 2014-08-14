@@ -2,7 +2,6 @@ package org.paulbetts.shroom;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.paulbetts.shroom.cloudapi.FolderMetadata;
 import org.paulbetts.shroom.core.ModelViewHolder;
-import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.ReactiveArrayList;
 import org.paulbetts.shroom.core.ReactiveListAdapter;
 import org.paulbetts.shroom.core.RxDaggerActivity;
-import org.paulbetts.shroom.core.RxDaggerElement;
 import org.paulbetts.shroom.core.RxDaggerFragment;
-import org.paulbetts.shroom.gdrive.DriveItem;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -29,7 +24,7 @@ import butterknife.InjectView;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class DriveFolderSelectorFragment extends RxDaggerFragment {
-    private ReactiveArrayList<DriveItem> rootFolders = new ReactiveArrayList<>();
+    private ReactiveArrayList<FolderMetadata> rootFolders = new ReactiveArrayList<>();
 
     @Inject
     CategoryScanners scanners;
@@ -50,9 +45,11 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
                 //.timeout(5, TimeUnit.SECONDS).retry(2)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(x -> {
-                    for(DriveItem di: x) {
+                    /*
+                    for(PlayableRom di: x) {
                         rootFolders.add(di);
                     }
+                    */
                 });
 
         list.setAdapter(new ReactiveListAdapter(rootFolders) {
@@ -79,7 +76,7 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
         super.onDetach();
     }
 
-    class DriveFolderTileViewHolder extends ModelViewHolder<DriveItem> {
+    class DriveFolderTileViewHolder extends ModelViewHolder<FolderMetadata> {
         @InjectView(R.id.driveItem) TextView driveItem;
 
         public DriveFolderTileViewHolder(View itemView) {
@@ -88,8 +85,8 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
         }
 
         @Override
-        public void bindModel(DriveItem item) {
-            driveItem.setText(item.getTitle());
+        public void bindModel(FolderMetadata item) {
+            driveItem.setText(item.getName());
         }
     }
 }

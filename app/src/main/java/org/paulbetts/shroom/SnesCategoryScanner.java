@@ -1,11 +1,5 @@
 package org.paulbetts.shroom;
-
-import com.google.android.gms.drive.Metadata;
-import com.google.android.gms.drive.query.Filters;
-import com.google.android.gms.drive.query.Query;
-import com.google.android.gms.drive.query.SearchableField;
-
-import org.paulbetts.shroom.gdrive.DriveItem;
+import org.paulbetts.shroom.cloudapi.FileMetadata;
 
 import java.util.Date;
 
@@ -26,8 +20,8 @@ public class SnesCategoryScanner extends CategoryScanner {
     }
 
     @Override
-    public PlayableRom romForDriveFile(DriveItem file) {
-        return new PlayableRom(new Date(), new Date(), file.getId(), file.getTitle(), false, Observable.never());
+    public PlayableRom romForDriveFile(FileMetadata file) {
+        return new PlayableRom(new Date(), new Date(), file.getId(), file.getName(), false, Observable.never());
     }
 
     @Inject

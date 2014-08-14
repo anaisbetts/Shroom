@@ -2,12 +2,10 @@ package org.paulbetts.shroom.helpers;
 
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Result;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import rx.Observable;
 import rx.Observer;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
 

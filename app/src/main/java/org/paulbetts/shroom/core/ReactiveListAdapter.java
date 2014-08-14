@@ -1,7 +1,6 @@
 package org.paulbetts.shroom.core;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import rx.Subscription;
 
