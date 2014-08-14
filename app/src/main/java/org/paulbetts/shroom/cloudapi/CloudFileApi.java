@@ -7,6 +7,9 @@ import rx.Observable;
  */
 
 public interface CloudFileApi {
+    String getToken();
+    void setToken(String value);
+
     Observable<String> authenticate();
     Observable<Void> testToken(String token);
 }

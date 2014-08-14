@@ -14,7 +14,6 @@ import java.util.List;
 import dagger.Module;
 import dagger.ObjectGraph;
 import rx.Observable;
-import rx.functions.Func0;
 import rx.subjects.PublishSubject;
 import rx.subjects.ReplaySubject;
 

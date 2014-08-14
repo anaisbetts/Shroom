@@ -1,8 +1,9 @@
 package org.paulbetts.shroom.gplus;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
 
 public class ProfileInfo {
 

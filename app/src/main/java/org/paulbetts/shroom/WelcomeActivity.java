@@ -1,22 +1,16 @@
 package org.paulbetts.shroom;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 
 import org.paulbetts.shroom.core.AppSettingsMixin;
 import org.paulbetts.shroom.core.Lifecycle;
 import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;
-import org.paulbetts.shroom.gdrive.DriveItem;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class WelcomeActivity extends RxDaggerActivity {
     @Inject

@@ -10,11 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import rx.Observable;
 import rx.Subscription;
-import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.Subscriptions;
 

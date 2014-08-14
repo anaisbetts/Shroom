@@ -4,14 +4,12 @@ package org.paulbetts.shroom.core;
 
 import android.content.Context;
 
-import org.paulbetts.shroom.CategoryDetailActivity;
-import org.paulbetts.shroom.CategoryListActivity;
-import org.paulbetts.shroom.WelcomeActivity;
 import org.paulbetts.shroom.helpers.ForApplication;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * A module for Android-specific dependencies which require a {@link Context} or
