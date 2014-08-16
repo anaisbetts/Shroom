@@ -44,7 +44,7 @@ public class DropboxFileApi implements CloudFileApi {
 
                 dropboxApi = new DropboxAPI<AndroidAuthSession>(session);
                 Subscription ret = Lifecycle.getLifecycleFor(hostActivity, LifecycleEvents.RESUME)
-                        .take(1)
+                        .skip(1).take(1)
                         .flatMap(x -> {
                             if (dropboxApi.getSession().authenticationSuccessful()) {
                                 // Required to complete auth, sets the access token on the session

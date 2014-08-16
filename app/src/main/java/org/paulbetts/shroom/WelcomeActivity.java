@@ -36,10 +36,17 @@ public class WelcomeActivity extends RxDaggerActivity {
         this.setResult(RESULT_CANCELED);
 
         Lifecycle.applyActivityHelpers(this, appSettings).subscribe(applyWorked -> {
+            authFragment.getLoginComplete().subscribe(x -> {
+                setResult(RESULT_OK);
+                finish();
+            });
+
             getFragmentManager().beginTransaction()
                     .replace(R.id.welcome_content, authFragment)
                     .commit();
+        });
 
+            /*
             authFragment.getLoginComplete().subscribe(x -> {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.welcome_content, driveSelectorFragment)
@@ -47,6 +54,7 @@ public class WelcomeActivity extends RxDaggerActivity {
                         .addToBackStack(null)
                         .commit();
             });
+                        */
 
             /*
             chooseFolder.setOnClickListener(view -> {
@@ -74,7 +82,6 @@ public class WelcomeActivity extends RxDaggerActivity {
                         });
             });
                         */
-        });
     }
 
     /*
