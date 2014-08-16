@@ -88,8 +88,6 @@ public abstract class RxDaggerActivity extends Activity implements RxDaggerEleme
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         activityGraph = ((DaggerApplication)getApplication()).getApplicationGraph()
                 .plus(new ActivityModule(this));
         List<Module> modules = getModules();
@@ -98,6 +96,10 @@ public abstract class RxDaggerActivity extends Activity implements RxDaggerEleme
         }
 
         inject(this);
+
+        // NB: Activity.onCreate sets up Fragments, which often call inject. If
+        // we're not set up by then, we'll NullPointer out
+        super.onCreate(savedInstanceState);
 
         currentBundle = savedInstanceState;
         lifecycleEvents.onNext(LifecycleEvents.CREATE);

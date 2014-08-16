@@ -72,9 +72,14 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDetach() {  super.onDetach(); }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
+
 
     class DriveFolderTileViewHolder extends ModelViewHolder<FolderMetadata> {
         @InjectView(R.id.driveItem) TextView driveItem;
