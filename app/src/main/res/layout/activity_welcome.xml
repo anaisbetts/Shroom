@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,25 +8,10 @@
     android:paddingBottom="64dp"
     tools:context="org.paulbetts.shroom.WelcomeActivity">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/welcome_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
-
-        <ImageView
-            android:contentDescription="App Logo"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:src="@drawable/ic_launcher"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:text="Choose Folder in Google Drive"
-            android:id="@+id/chooseFolderInDrive" />
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_gravity="center"
+        tools:layout="@layout/fragment_welcome_auth" />
+</FrameLayout>

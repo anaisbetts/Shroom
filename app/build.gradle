@@ -44,6 +44,10 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 retrolambda {
@@ -54,12 +58,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile 'com.squareup.picasso:picasso:2.3.+'
+    compile 'com.jakewharton:butterknife:5.+'
     compile 'com.android.support:support-v4:+'
-    compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:palette-v7:+'
     compile 'com.google.android.gms:play-services:+'
     compile 'com.squareup.okhttp:okhttp:2.0.+'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.squareup.dagger:dagger:+'
     compile 'com.squareup.dagger:dagger-compiler:+'
     compile 'com.netflix.rxjava:rxjava-android:+'
