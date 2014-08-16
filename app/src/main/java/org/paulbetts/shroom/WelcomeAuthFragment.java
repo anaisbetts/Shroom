@@ -20,7 +20,7 @@ import rx.android.observables.ViewObservable;
 import rx.subjects.PublishSubject;
 
 public class WelcomeAuthFragment extends RxDaggerFragment {
-    @InjectView(R.id.auth_gdrive) Button authGDrive = null;
+    @InjectView(R.id.auth_dropbox) Button authDropbox = null;
 
     @Inject
     RxDaggerActivity hostActivity;
@@ -37,7 +37,7 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
         View ret = inflater.inflate(R.layout.fragment_welcome_auth, container, false);
         ButterKnife.inject(this, ret);
 
-        ViewObservable.clicks(authGDrive, false)
+        ViewObservable.clicks(authDropbox, false)
                 .doOnNext(x -> oAuthTokenMixin.forgetExistingToken())
                 .flatMap(x -> oAuthTokenMixin.initializeHelper(this))
                 .doOnNext(x -> Log.i("Shroom", "Logged into Cloud File Backend successfully"))
@@ -45,6 +45,12 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
                 .connect();
 
         return ret;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 
     private PublishSubject<Boolean> loginComplete = PublishSubject.create();

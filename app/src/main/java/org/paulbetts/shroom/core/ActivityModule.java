@@ -27,6 +27,7 @@ import dagger.Provides;
                 DriveFolderSelectorFragment.class,
                 AppSettingsMixin.class,
                 OAuthTokenMixin.class,
+                DropboxFileApi.class,
         },
         addsTo = AndroidModule.class,
         library = true
