@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.subjects.PublishSubject;
 
 public class DriveFolderSelectorFragment extends RxDaggerFragment {
     private ReactiveArrayList<FolderMetadata> rootFolders = new ReactiveArrayList<>();
@@ -79,7 +80,6 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
 
     class DriveFolderTileViewHolder extends ModelViewHolder<FolderMetadata> {
         @InjectView(R.id.driveItem) TextView driveItem;
