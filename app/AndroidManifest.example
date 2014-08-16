@@ -27,7 +27,7 @@
             android:configChanges="orientation|keyboard">
             <intent-filter>
                 <!-- Change this to be db- followed by your app key -->
-                <data android:scheme="db-ou3actdv23d43xx" />
+                <data android:scheme="@string/dropbox_key_with_db" />
 
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE"/>
