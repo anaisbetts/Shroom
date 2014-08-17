@@ -78,7 +78,7 @@ public class DropboxFileApi implements CloudFileApi {
     }
 
     @Override
-    public Observable<Boolean> testToken(String token) {
+    public Observable<Boolean> testToken() {
         if (dropboxApi == null) initializeDropboxApi();
 
         return Observable.create(new Observable.OnSubscribeFunc<Boolean>() {

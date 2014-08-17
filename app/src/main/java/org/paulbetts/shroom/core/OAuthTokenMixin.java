@@ -25,7 +25,7 @@ public class OAuthTokenMixin  implements ElementMixin {
 
     @Override
     public Observable<Boolean> initializeHelper(RxDaggerElement activity) {
-        return loadAndVerifyToken(activity)
+        return loadAndVerifyToken()
                 .map(token -> {
                     hostActivity.getSharedPreferences(TOKEN_SETTINGS_FILE, 0).edit()
                             .putString(TOKEN_KEY, token)
@@ -40,7 +40,7 @@ public class OAuthTokenMixin  implements ElementMixin {
                 .commit();
     }
 
-    private Observable<String> loadAndVerifyToken(RxDaggerElement activity) {
+    private Observable<String> loadAndVerifyToken() {
         Observable<String> getNewKey = dropboxApi.authenticate();
 
         String oauthToken = hostActivity.getSharedPreferences(TOKEN_SETTINGS_FILE, 0)
@@ -48,7 +48,7 @@ public class OAuthTokenMixin  implements ElementMixin {
         if (oauthToken == null) return getNewKey;
 
         dropboxApi.setToken(oauthToken);
-        return dropboxApi.testToken(oauthToken)
+        return dropboxApi.testToken()
                 .map(x -> oauthToken)
                 .onErrorResumeNext(getNewKey);
     }

@@ -26,7 +26,7 @@ public class CategoryScanners {
     }
 
     public Iterable<CategoryScanner> get() {
-        return Arrays.asList(new CategoryScanner[]{snesScanner,});
+        return Arrays.asList(snesScanner);
     }
 
     public Observable<List<PlayableRom>> performFullScan() {

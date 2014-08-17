@@ -29,6 +29,6 @@ public class Lifecycle {
                         return x.initializeHelper(element);
                     }
                 }))
-                .reduce((Boolean) true, (acc, x) -> acc && x);
+                .reduce(true, (acc, x) -> acc && x);
     }
 }

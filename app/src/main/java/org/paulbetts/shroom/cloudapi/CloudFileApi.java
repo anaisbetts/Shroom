@@ -11,5 +11,5 @@ public interface CloudFileApi {
     void setToken(String value);
 
     Observable<String> authenticate();
-    Observable<Boolean> testToken(String token);
+    Observable<Boolean> testToken();
 }
