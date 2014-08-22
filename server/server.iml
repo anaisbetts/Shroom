@@ -12,7 +12,7 @@
         <option name="HTTP_PORT" value="8080" />
         <option name="WAR_DIR" value="$MODULE_DIR$/build/exploded-app" />
         <option name="WEB_APP_DIR" value="$MODULE_DIR$/src/main/webapp" />
-        <option name="APPENGINE_SDKROOT" value="$USER_HOME$/.gradle/appengine-sdk/appengine-java-sdk-1.9.6" />
+        <option name="APPENGINE_SDKROOT" value="$USER_HOME$/.gradle/appengine-sdk/appengine-java-sdk-1.9.9" />
       </configuration>
     </facet>
     <facet type="java-gradle" name="Java-Gradle">
@@ -39,15 +39,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="appengine-endpoints-1.9.6" level="project" />
-    <orderEntry type="library" exported="" name="appengine-endpoints-deps-1.9.6" level="project" />
+    <orderEntry type="library" exported="" name="appengine-endpoints-1.9.9" level="project" />
+    <orderEntry type="library" exported="" name="appengine-endpoints-deps-1.9.9" level="project" />
     <orderEntry type="library" exported="" name="servlet-api-2.5" level="project" />
-    <orderEntry type="library" exported="" name="objectify-4.0b3" level="project" />
+    <orderEntry type="library" exported="" name="objectify-5.0.3" level="project" />
     <orderEntry type="library" exported="" name="gcm-server-1.0.2" level="project" />
-    <orderEntry type="library" exported="" name="appengine-api-1.0-sdk-1.9.6" level="project" />
-    <orderEntry type="library" exported="" name="guava-14.0.1" level="project" />
-    <orderEntry type="library" exported="" name="appengine-api-labs-1.7.6" level="project" />
+    <orderEntry type="library" exported="" name="dropbox-core-sdk-1.7.6" level="project" />
+    <orderEntry type="library" exported="" name="appengine-api-1.0-sdk-1.9.9" level="project" />
+    <orderEntry type="library" exported="" name="guava-17.0" level="project" />
     <orderEntry type="library" exported="" name="json-simple-1.1" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.2.4" level="project" />
   </component>
 </module>
 
