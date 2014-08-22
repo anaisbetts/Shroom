@@ -8,6 +8,17 @@
             <param-value>org.paulbetts.shroom.server.RegistrationEndpoint, org.paulbetts.shroom.server.MessagingEndpoint</param-value>
         </init-param>
     </servlet>
+
+    <servlet>
+        <servlet-name>ScannerServlet</servlet-name>
+        <servlet-class>org.paulbetts.shroom.server.ScannerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ScannerServlet</servlet-name>
+        <url-pattern>/scanner/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
