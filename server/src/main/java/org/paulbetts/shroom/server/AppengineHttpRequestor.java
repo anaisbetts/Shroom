@@ -45,14 +45,14 @@ public class AppengineHttpRequestor extends HttpRequestor
      * change this setting by creating a subclass and overriding
      * {@link #configureConnection}.
      */
-    public static final int DefaultConnectTimeoutMillis = 35 * 1000;
+    public static final int DefaultConnectTimeoutMillis = 5 * 1000;
 
     /**
      * We pass this value to {@link HttpURLConnection#setReadTimeout}.  You can
      * change this setting by creating a subclass and overriding
      * {@link #configureConnection}.
      */
-    public static final int DefaultReadTimeoutMillis = 35 * 1000;
+    public static final int DefaultReadTimeoutMillis = 15 * 1000;
 
     /**
      * A thread-safe instance of {@code StandardHttpRequestor} that connects directly
