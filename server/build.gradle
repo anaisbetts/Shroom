@@ -33,6 +33,8 @@ dependencies {
   compile 'com.googlecode.objectify:objectify:+'
   compile 'com.ganyo:gcm-server:+'
   compile 'com.dropbox.core:dropbox-core-sdk:+'
+  compile 'org.javatuples:javatuples:+'
+  compile 'com.netflix.rxjava:rxjava-async-util:+'
 }
 
 appengine {

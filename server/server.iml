@@ -45,10 +45,13 @@
     <orderEntry type="library" exported="" name="objectify-5.0.3" level="project" />
     <orderEntry type="library" exported="" name="gcm-server-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="dropbox-core-sdk-1.7.6" level="project" />
+    <orderEntry type="library" exported="" name="javatuples-1.2" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-async-util-0.20.0" level="project" />
     <orderEntry type="library" exported="" name="appengine-api-1.0-sdk-1.9.9" level="project" />
     <orderEntry type="library" exported="" name="guava-17.0" level="project" />
     <orderEntry type="library" exported="" name="json-simple-1.1" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.2.4" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-core-0.20.0" level="project" />
   </component>
 </module>
 
