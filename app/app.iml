@@ -110,6 +110,7 @@
     <orderEntry type="library" exported="" name="json_simple-1.1" level="project" />
     <orderEntry type="library" exported="" name="rxjava-android-0.20.0-RC4" level="project" />
     <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
+    <orderEntry type="module" module-name="models" exported="" />
   </component>
 </module>
 
