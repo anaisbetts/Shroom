@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
 import org.paulbetts.shroom.core.OAuthTokenMixin;
@@ -28,7 +29,7 @@ import rx.subjects.PublishSubject;
 public class WelcomeAuthFragment extends RxDaggerFragment {
     @InjectView(R.id.auth_dropbox) Button authDropbox = null;
     @InjectView(R.id.search_scene) LinearLayout searchScene = null;
-    @InjectView(R.id.progress) ProgressBar progress = null;
+    @InjectView(R.id.found_rom) TextView foundRom = null;
     @InjectView(R.id.finish_login) Button finishLogin = null;
 
     @Inject
@@ -67,11 +68,15 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
                 .refCount();
 
         roms
-                .reduce(true, (acc,x) -> acc)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(x -> {
+                    foundRom.setText("Found " + x.getTitle() + "...");
+                })
+                .reduce(0, (acc,x) -> acc+1)
+                .doOnNext(x -> {
                     TransitionManager.beginDelayedTransition(container);
-                    progress.setVisibility(View.GONE);
+                    foundRom.setText("Found " + x.toString() + " ROMs");
+                    finishLogin.setEnabled(true);
                 })
                 .flatMap(x -> {
                     return ViewObservable.clicks(finishLogin, false).take(1)
