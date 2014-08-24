@@ -71,4 +71,6 @@ dependencies {
     compile 'com.netflix.rxjava:rxjava-android:+'
     compile 'com.etsy.android.grid:library:1.0.+'
     compile 'org.javatuples:javatuples:+'
+    compile project(":models")
+    compile project(path: ':server', configuration: 'android-endpoints')
 }

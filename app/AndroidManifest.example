@@ -7,9 +7,19 @@
 
     <!-- Put this in main/AndroidManifest.xml -->
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.WAKELOCK"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <permission
+        android:name="org.paulbetts.shroom.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="org.paulbetts.shroom.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -26,8 +36,8 @@
             android:launchMode="singleTask"
             android:configChanges="orientation|keyboard">
             <intent-filter>
-                <!-- Change this to be db- followed by your app key -->
-                <data android:scheme="@string/dropbox_key_with_db" />
+                <!-- Change this to be db- followed by your DropBox app key -->
+                <data android:scheme="db-XYX" />
 
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE"/>
