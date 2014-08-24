@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
@@ -49,33 +50,29 @@ public class DropboxServerAssistedFileApi implements CloudFileApi {
 
     @Override
     public Observable<String> authenticate() {
-        return Observable.create(new Observable.OnSubscribeFunc<String>() {
-            @Override
-            public Subscription onSubscribe(Observer<? super String> op) {
-                initializeDropboxApi();
+        return Observable.create((Subscriber<? super String> op) -> {
+            initializeDropboxApi();
 
-                // XXX: You can't do this because this subscription gets trashed
-                // if the Activity gets torn down
-                Subscription ret = Lifecycle.getLifecycleFor(hostActivity, LifecycleEvents.RESUME)
-                        .skip(1).take(1)
-                        .flatMap(x -> {
-                            if (dropboxApi.getSession().authenticationSuccessful()) {
-                                // Required to complete auth, sets the access token on the session
-                                dropboxApi.getSession().finishAuthentication();
+            // XXX: You can't do this because this subscription gets trashed
+            // if the Activity gets torn down
+            op.add(Lifecycle.getLifecycleFor(hostActivity, LifecycleEvents.RESUME)
+                    .skip(1).take(1)
+                    .flatMap(x -> {
+                        if (dropboxApi.getSession().authenticationSuccessful()) {
+                            // Required to complete auth, sets the access token on the session
+                            dropboxApi.getSession().finishAuthentication();
 
-                                return Observable.just(dropboxApi.getSession().getOAuth2AccessToken());
-                            } else {
-                                return Observable.error(new Exception("Authentication failed"));
-                            }
-                        })
-                        .subscribe(op);
+                            return Observable.just(dropboxApi.getSession().getOAuth2AccessToken());
+                        } else {
+                            return Observable.error(new Exception("Authentication failed"));
+                        }
+                    })
+                    .subscribe(op));
 
-                try {
-                    dropboxApi.getSession().startOAuth2Authentication(hostActivity);
-                } catch (Exception ex) {
-                    op.onError(ex);
-                }
-                return ret;
+            try {
+                dropboxApi.getSession().startOAuth2Authentication(hostActivity);
+            } catch (Exception ex) {
+                op.onError(ex);
             }
         });
     }
@@ -84,30 +81,30 @@ public class DropboxServerAssistedFileApi implements CloudFileApi {
     public Observable<Boolean> testToken() {
         if (dropboxApi == null) initializeDropboxApi();
 
-        return Observable.create(new Observable.OnSubscribeFunc<Boolean>() {
-            @Override
-            public Subscription onSubscribe(Observer<? super Boolean> op) {
-                AsyncTask t = new AsyncTask() {
-                    @Override
-                    protected Void doInBackground(Object[] objects) {
-                        try {
-                            DropboxAPI.Account ac = dropboxApi.accountInfo();
-                            Log.i("DropboxFileApi", ac.displayName);
+        return Observable.create((Subscriber<? super Boolean> op) -> {
+            AsyncTask t = new AsyncTask() {
+                @Override
+                protected Void doInBackground(Object[] objects) {
+                    try {
+                        if (op.isUnsubscribed()) return null;
 
-                            op.onNext(true);
-                            op.onCompleted();
-                        } catch (DropboxException de) {
-                            op.onNext(false);
-                            op.onCompleted();
-                        }
+                        DropboxAPI.Account ac = dropboxApi.accountInfo();
+                        Log.i("DropboxFileApi", ac.displayName);
 
-                        return null;
+                        op.onNext(true);
+                        op.onCompleted();
+                    } catch (DropboxException de) {
+                        op.onNext(false);
+                        op.onCompleted();
                     }
-                };
 
-                t.execute();
-                return Subscriptions.create(() -> t.cancel(false));
-            }
+                    return null;
+                }
+            };
+
+            op.add(Subscriptions.create(() -> t.cancel(false)));
+
+            t.execute();
         });
     }
 
