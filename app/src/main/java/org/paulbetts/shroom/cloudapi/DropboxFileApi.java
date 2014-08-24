@@ -53,6 +53,8 @@ public class DropboxFileApi implements CloudFileApi {
             public Subscription onSubscribe(Observer<? super String> op) {
                 initializeDropboxApi();
 
+                // XXX: You can't do this because this subscription gets trashed
+                // if the Activity gets torn down
                 Subscription ret = Lifecycle.getLifecycleFor(hostActivity, LifecycleEvents.RESUME)
                         .skip(1).take(1)
                         .flatMap(x -> {
