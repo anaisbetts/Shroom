@@ -67,19 +67,16 @@ public class ScannerServlet extends HttpServlet {
                 .refCount();
 
         final ArrayList<String> lines = new ArrayList<>();
-        scans.subscribe(new Action1<List<DbxEntry>>() {
-            @Override
-            public void call(List<DbxEntry> dbxEntries) {
-                for(DbxEntry e: dbxEntries) {
-                    try {
-                        StringWriter sw = new StringWriter();
-                        om.writeValue(sw, e);
-                        String line = sw.toString().replace('\n', ' ') + "\n";
-                        writer.write(line);
-                        lines.add(line);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+        scans.subscribe(dbxEntries -> {
+            for(DbxEntry e: dbxEntries) {
+                try {
+                    StringWriter sw = new StringWriter();
+                    om.writeValue(sw, e);
+                    String line = sw.toString().replace('\n', ' ') + "\n";
+                    writer.write(line);
+                    lines.add(line);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -92,20 +89,17 @@ public class ScannerServlet extends HttpServlet {
     }
 
     private Observable<List<DbxEntry>> searchForRoms(final DbxClient client, final List<String> extensions) {
-        return Observable.create(new Observable.OnSubscribeFunc<List<DbxEntry>>() {
-            @Override
-            public Subscription onSubscribe(Observer<? super List<DbxEntry>> op) {
-                try {
-                    for(String ext: extensions) {
-                        op.onNext(client.searchFileAndFolderNames("/", ext));
-                    }
-                } catch (DbxException e) {
-                    op.onError(e);
+        return Observable.create((Observer<? super List<DbxEntry>> op) -> {
+            try {
+                for(String ext: extensions) {
+                    op.onNext(client.searchFileAndFolderNames("/", ext));
                 }
-
-                op.onCompleted();
-                return Subscriptions.empty();
+            } catch (DbxException e) {
+                op.onError(e);
             }
+
+            op.onCompleted();
+            return Subscriptions.empty();
         });
     }
 
@@ -119,32 +113,25 @@ public class ScannerServlet extends HttpServlet {
         return sb.toString();
     }
 
-    /*
-    private Observable<List<DbxEntry>> searchForRoms(final DbxClient client, List<String> extensions) {
-        Observable<Observable<List<DbxEntry>>> scans = Observable.from(extensions)
-                .map(new Func1<String, Observable<List<DbxEntry>>>() {
-                    @Override
-                    public Observable<List<DbxEntry>> call(final String s) {
-                        return RxAppEngine.deferStart(new Func0<List<DbxEntry>>() {
-                            @Override
-                            public List<DbxEntry> call() {
-                                try {
-                                    log.warning("Attempting search!");
-                                    List<DbxEntry> ret = client.searchFileAndFolderNames("/", s);
+    private Observable<List<DbxEntry>> parallelSearchForRoms(final DbxClient client, List<String> extensions) {
+        // NB: This *should* be faster, but seems to hang for some reason.
+        // Code left here for posterity.
+        Observable<Observable<List<DbxEntry>>> scans =
+                Observable.from(extensions)
+                        .map(s -> RxAppEngine.deferStart(() -> {
+                            try {
+                                log.warning("Attempting search!");
+                                List<DbxEntry> ret = client.searchFileAndFolderNames("/", s);
 
-                                    log.warning("Finished search!");
-                                    return ret;
-                                } catch (DbxException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                log.warning("Finished search!");
+                                return ret;
+                            } catch (DbxException e) {
+                                throw new RuntimeException(e);
                             }
-                        });
-                    }
-                });
+                        }));
 
         return Observable.merge(scans, 8);
     }
-    */
 
     private void failRequestWith(int code, String message, HttpServletResponse resp) throws IOException {
         Writer writer = resp.getWriter();
