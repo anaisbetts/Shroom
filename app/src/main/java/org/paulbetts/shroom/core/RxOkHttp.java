@@ -2,11 +2,7 @@ package org.paulbetts.shroom.core;
 
 import android.os.AsyncTask;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,19 +11,15 @@ import java.util.Arrays;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Func1;
 import rx.subscriptions.Subscriptions;
+import rx.functions.*;
 
-/**
- * Created by paul on 8/23/14.
- */
 public class RxOkHttp {
     public static Observable<Response> request(OkHttpClient client, Request request) {
         return Observable.create((Subscriber<? super Response> subj) -> {
             final Call call = client.newCall(request);
 
-            subj.add(Subscriptions.create(() -> call.cancel()));
+            subj.add(Subscriptions.create(call::cancel));
 
             call.enqueue(new Callback() {
                 @Override
