@@ -64,7 +64,7 @@ public class RxOkHttp {
                             try {
                                 while (bytesRead > -1 && !subj.isUnsubscribed()) {
                                     bytesRead = stream.read(buffer, 0, 65536);
-                                    if (bytesRead == 0) continue;
+                                    if (bytesRead < 1) continue;
 
                                     subj.onNext(Arrays.copyOfRange(buffer, 0, bytesRead));
                                 }
@@ -104,16 +104,16 @@ public class RxOkHttp {
                     @Override
                     public Observable<? extends String> call(String s) {
                         String[] lines = (remainingString + s).split("\n");
-                        if (lines[lines.length - 1].length() != 0) {
+                        if (s.charAt(s.length() - 1) != '\n') {
                             remainingString = lines[lines.length - 1];
-
-                            return Observable.from(Arrays.copyOfRange(lines, 0, lines.length - 2));
+                            return Observable.from(Arrays.copyOfRange(lines, 0, lines.length - 1));
                         }
 
                         remainingString = "";
                         return Observable.from(lines);
                     }
-                });
+                })
+                .filter(x -> x.length() > 0);
     }
 
     private static Throwable getFailureExceptionOnBadStatus(Response resp) {

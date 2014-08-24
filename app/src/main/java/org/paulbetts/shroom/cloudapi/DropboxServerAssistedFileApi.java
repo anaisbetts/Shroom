@@ -67,7 +67,7 @@ public class DropboxServerAssistedFileApi implements CloudFileApi {
                             // Required to complete auth, sets the access token on the session
                             dropboxApi.getSession().finishAuthentication();
 
-                            return Observable.just(dropboxApi.getSession().getOAuth2AccessToken());
+                            return Observable.just(token = dropboxApi.getSession().getOAuth2AccessToken());
                         } else {
                             return Observable.error(new Exception("Authentication failed"));
                         }
