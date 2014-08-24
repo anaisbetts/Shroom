@@ -1,0 +1,9 @@
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
+<screen>
+    <_content layout="@layout/fragment_drive_folder_selector">
+        <folder_list></folder_list>
+        <choose_folder></choose_folder>
+    </_content>
+</screen>

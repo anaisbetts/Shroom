@@ -1,0 +1,11 @@
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
+<screen>
+    <_content layout="@layout/fragment_category_detail">
+        <!-- TextView Examples:
+        <category_detail text="@string/string_resource" />
+        <category_detail text="Text literal" textSize="14sp" /> -->
+        <category_detail />
+    </_content>
+</screen>

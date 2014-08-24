@@ -10,4 +10,6 @@ app/src/debug/res/values/strings.xml
 app/src/release/res/values/strings.xml
 app/src/main/AndroidManifest.xml
 
+app/mirror/gen
+
 server/src/main/webapp/WEB-INF/appengine-web.xml
