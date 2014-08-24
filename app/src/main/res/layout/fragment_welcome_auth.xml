@@ -14,10 +14,32 @@
         android:layout_gravity="center_horizontal" />
 
     <Button
+        android:id="@+id/auth_dropbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="24dp"
-        android:text="Log into Dropbox"
-        android:id="@+id/auth_dropbox" />
+        android:text="Log into Dropbox" />
+
+    <LinearLayout
+        android:id="@+id/search_scene"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:indeterminate="true"
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <Button
+            android:id="@+id/finish_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Let's go" />
+    </LinearLayout>
 </LinearLayout>
