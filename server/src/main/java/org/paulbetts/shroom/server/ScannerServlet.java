@@ -38,11 +38,13 @@ public class ScannerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String token = req.getParameter("dropbox_token");
+        String token = req.getHeader("Authorization");
         if (token == null) {
             failRequestWith(400, "Bad Token", resp);
             return;
         }
+
+        token = token.replace("Bearer ", "");
 
         String memcacheKey = "scanner_" + token;
         MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
