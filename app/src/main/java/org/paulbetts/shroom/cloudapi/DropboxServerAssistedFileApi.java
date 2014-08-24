@@ -8,12 +8,18 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
+import com.google.gson.Gson;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 
 import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.core.Lifecycle;
 import org.paulbetts.shroom.core.LifecycleEvents;
 import org.paulbetts.shroom.core.RxDaggerActivity;
+import org.paulbetts.shroom.core.RxOkHttp;
 import org.paulbetts.shroom.models.RomInfo;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,6 +27,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
 
@@ -31,10 +38,8 @@ public class DropboxServerAssistedFileApi implements CloudFileApi {
     private String token;
     private DropboxAPI<AndroidAuthSession> dropboxApi;
     private AppKeyPair keyPair = null;
-
-    @Inject
-    public DropboxServerAssistedFileApi() {
-    }
+    private String scannerServiceHost = null;
+    private OkHttpClient client = new OkHttpClient();
 
     @Inject
     RxDaggerActivity hostActivity;
@@ -110,7 +115,18 @@ public class DropboxServerAssistedFileApi implements CloudFileApi {
 
     @Override
     public Observable<RomInfo> scanForRoms() {
-        return Observable.error(new UnsupportedOperationException());
+        scannerServiceHost = scannerServiceHost != null ?
+                scannerServiceHost :
+                hostActivity.getString(R.string.appengine_scanner_service);
+
+        Request rq = new Request.Builder()
+                .url(scannerServiceHost + "/scanner")
+                .get()
+                .addHeader("Authorization", "Bearer " + getToken())
+                .build();
+
+        return RxOkHttp.streamLines(client, rq)
+                .map(x -> new Gson().fromJson(x, RomInfo.class));
     }
 
     private void initializeDropboxApi() {
