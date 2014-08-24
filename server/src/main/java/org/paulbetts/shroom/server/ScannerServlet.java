@@ -20,6 +20,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -80,9 +81,16 @@ public class ScannerServlet extends HttpServlet {
                     ex.printStackTrace();
                 }
             }
+        }, ex -> {
+            log.log(Level.INFO, "Dropbox scan failed", ex);
         });
 
-        scans.toBlocking().last();
+        try {
+            scans.toBlocking().last();
+        } catch (Exception ex) {
+            failRequestWith(400, "Invalid Dropbox Token", resp);
+            return;
+        }
 
         memcache.put(memcacheKey, joinStrings("", lines),
                 Expiration.byDeltaSeconds(60), MemcacheService.SetPolicy.SET_ALWAYS);
