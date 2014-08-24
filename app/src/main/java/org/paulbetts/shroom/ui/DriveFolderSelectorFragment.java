@@ -1,4 +1,4 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.paulbetts.shroom.CategoryScanners;
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.cloudapi.FolderMetadata;
 import org.paulbetts.shroom.core.ModelViewHolder;
 import org.paulbetts.shroom.core.ReactiveArrayList;

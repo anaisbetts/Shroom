@@ -32,7 +32,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".CategoryListActivity"
+            android:name=".ui.CategoryListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,16 +41,16 @@
         </activity>
 
         <activity
-            android:name=".CategoryDetailActivity"
+            android:name=".ui.CategoryDetailActivity"
             android:label="@string/title_category_detail"
-            android:parentActivityName=".CategoryListActivity" >
+            android:parentActivityName=".ui.CategoryListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CategoryListActivity" />
         </activity>
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
             android:theme="@style/AppThemeNoActionBar"
             android:label="@string/title_activity_welcome" >
         </activity>

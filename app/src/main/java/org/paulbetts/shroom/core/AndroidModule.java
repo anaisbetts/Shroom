@@ -4,8 +4,6 @@ package org.paulbetts.shroom.core;
 
 import android.content.Context;
 
-import org.paulbetts.shroom.helpers.ForApplication;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -17,7 +15,6 @@ import dagger.Provides;
  */
 @Module(
         injects = {
-
         },
         library = true
 )
@@ -30,7 +27,7 @@ public class AndroidModule {
 
     /**
      * Allow the application context to be injected but require that it be annotated with
-     * {@link org.paulbetts.shroom.helpers.ForApplication @Annotation} to explicitly differentiate it from an activity context.
+     * {@link ForApplication @Annotation} to explicitly differentiate it from an activity context.
      */
     @Provides @Singleton @ForApplication
     Context provideApplicationContext() {

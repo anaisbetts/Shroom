@@ -1,10 +1,11 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 
 

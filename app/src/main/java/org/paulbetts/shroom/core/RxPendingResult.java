@@ -1,4 +1,4 @@
-package org.paulbetts.shroom.helpers;
+package org.paulbetts.shroom.core;
 
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Result;

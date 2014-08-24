@@ -1,4 +1,4 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.paulbetts.shroom.dummy.DummyContent;
-import org.paulbetts.shroom.helpers.ForApplication;
+import org.paulbetts.shroom.core.ForApplication;
 
 import javax.inject.Inject;
 

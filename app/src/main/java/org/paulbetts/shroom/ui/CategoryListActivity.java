@@ -1,8 +1,9 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.core.AppSettingsMixin;
 import org.paulbetts.shroom.core.Lifecycle;
 import org.paulbetts.shroom.core.OAuthTokenMixin;

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import org.paulbetts.shroom.WelcomeActivity;
+import org.paulbetts.shroom.ui.WelcomeActivity;
 
 import javax.inject.Inject;
 

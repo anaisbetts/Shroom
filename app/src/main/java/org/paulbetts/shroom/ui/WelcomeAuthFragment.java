@@ -1,4 +1,4 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.os.Bundle;
 import android.transition.TransitionManager;
@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
 import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;

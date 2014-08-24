@@ -1,10 +1,10 @@
 package org.paulbetts.shroom.core;
 
-import org.paulbetts.shroom.CategoryDetailActivity;
-import org.paulbetts.shroom.CategoryListActivity;
-import org.paulbetts.shroom.DriveFolderSelectorFragment;
-import org.paulbetts.shroom.WelcomeActivity;
-import org.paulbetts.shroom.WelcomeAuthFragment;
+import org.paulbetts.shroom.ui.CategoryDetailActivity;
+import org.paulbetts.shroom.ui.CategoryListActivity;
+import org.paulbetts.shroom.ui.DriveFolderSelectorFragment;
+import org.paulbetts.shroom.ui.WelcomeActivity;
+import org.paulbetts.shroom.ui.WelcomeAuthFragment;
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
 import org.paulbetts.shroom.cloudapi.DropboxServerAssistedFileApi;
 

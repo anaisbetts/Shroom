@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/category_list"
-        android:name="org.paulbetts.shroom.CategoryListFragment"
+        android:name="org.paulbetts.shroom.ui.CategoryListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
