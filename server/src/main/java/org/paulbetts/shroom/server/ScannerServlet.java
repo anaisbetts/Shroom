@@ -1,6 +1,5 @@
 package org.paulbetts.shroom.server;
 
-import com.dropbox.core.DbxAccountInfo;
 import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
@@ -27,10 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import rx.Observable;
 import rx.Observer;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.functions.Func0;
-import rx.functions.Func1;
 import rx.subscriptions.Subscriptions;
 
 public class ScannerServlet extends HttpServlet {
@@ -83,7 +78,7 @@ public class ScannerServlet extends HttpServlet {
 
         scans.toBlocking().last();
 
-        memcache.put(memcacheKey, join("", lines),
+        memcache.put(memcacheKey, joinStrings("", lines),
                 Expiration.byDeltaSeconds(60), MemcacheService.SetPolicy.SET_ALWAYS);
         writer.close();
     }
@@ -91,7 +86,7 @@ public class ScannerServlet extends HttpServlet {
     private Observable<List<DbxEntry>> searchForRoms(final DbxClient client, final List<String> extensions) {
         return Observable.create((Observer<? super List<DbxEntry>> op) -> {
             try {
-                for(String ext: extensions) {
+                for (String ext : extensions) {
                     op.onNext(client.searchFileAndFolderNames("/", ext));
                 }
             } catch (DbxException e) {
@@ -101,16 +96,6 @@ public class ScannerServlet extends HttpServlet {
             op.onCompleted();
             return Subscriptions.empty();
         });
-    }
-
-    String join(String delimiter, List<String> lines) {
-        StringBuilder sb = new StringBuilder();
-        for(String line: lines) {
-            sb.append(line);
-            sb.append(delimiter);
-        }
-
-        return sb.toString();
     }
 
     private Observable<List<DbxEntry>> parallelSearchForRoms(final DbxClient client, List<String> extensions) {
@@ -150,4 +135,15 @@ public class ScannerServlet extends HttpServlet {
 
         public String message;
     }
+
+    String joinStrings(String delimiter, List<String> lines) {
+        StringBuilder sb = new StringBuilder();
+        for(String line: lines) {
+            sb.append(line);
+            sb.append(delimiter);
+        }
+
+        return sb.toString();
+    }
+
 }
