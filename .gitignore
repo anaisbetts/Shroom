@@ -7,8 +7,9 @@
 server/build
 
 app/src/debug/res/values/strings.xml
+app/src/debug/AndroidManifest.xml
+app/src/release/AndroidManifest.xml
 app/src/release/res/values/strings.xml
-app/src/main/AndroidManifest.xml
 
 app/mirror/gen
 
