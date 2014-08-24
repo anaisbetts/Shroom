@@ -81,6 +81,9 @@ public class ScannerServlet extends HttpServlet {
                     ex.printStackTrace();
                 }
             }
+
+            writer.write("\n");
+            lines.add("\n");
         }, ex -> {
             log.log(Level.INFO, "Dropbox scan failed", ex);
         });
