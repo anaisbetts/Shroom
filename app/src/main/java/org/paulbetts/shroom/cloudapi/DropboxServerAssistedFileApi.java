@@ -13,6 +13,7 @@ import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.core.Lifecycle;
 import org.paulbetts.shroom.core.LifecycleEvents;
 import org.paulbetts.shroom.core.RxDaggerActivity;
+import org.paulbetts.shroom.models.RomInfo;
 
 import javax.inject.Inject;
 
@@ -25,13 +26,13 @@ import rx.subscriptions.Subscriptions;
 /**
  * Created by paul on 8/14/14.
  */
-public class DropboxFileApi implements CloudFileApi {
+public class DropboxServerAssistedFileApi implements CloudFileApi {
     private String token;
     private DropboxAPI<AndroidAuthSession> dropboxApi;
     private AppKeyPair keyPair = null;
 
     @Inject
-    public DropboxFileApi() {
+    public DropboxServerAssistedFileApi() {
     }
 
     @Inject
@@ -108,6 +109,11 @@ public class DropboxFileApi implements CloudFileApi {
                 return Subscriptions.create(() -> t.cancel(false));
             }
         });
+    }
+
+    @Override
+    public Observable<RomInfo> scanForRoms() {
+        return Observable.error(new UnsupportedOperationException());
     }
 
     private void initializeDropboxApi() {

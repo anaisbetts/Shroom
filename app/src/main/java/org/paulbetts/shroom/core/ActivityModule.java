@@ -1,14 +1,12 @@
 package org.paulbetts.shroom.core;
 
-import com.dropbox.client2.DropboxAPI;
-
 import org.paulbetts.shroom.CategoryDetailActivity;
 import org.paulbetts.shroom.CategoryListActivity;
 import org.paulbetts.shroom.DriveFolderSelectorFragment;
 import org.paulbetts.shroom.WelcomeActivity;
 import org.paulbetts.shroom.WelcomeAuthFragment;
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
-import org.paulbetts.shroom.cloudapi.DropboxFileApi;
+import org.paulbetts.shroom.cloudapi.DropboxServerAssistedFileApi;
 
 import javax.inject.Singleton;
 
@@ -27,7 +25,7 @@ import dagger.Provides;
                 DriveFolderSelectorFragment.class,
                 AppSettingsMixin.class,
                 OAuthTokenMixin.class,
-                DropboxFileApi.class,
+                DropboxServerAssistedFileApi.class,
         },
         addsTo = AndroidModule.class,
         library = true
@@ -65,7 +63,7 @@ public class ActivityModule {
 
     @Provides @Singleton CloudFileApi providesDropboxApi() {
         if (cloudFileApi == null) {
-            cloudFileApi = new DropboxFileApi();
+            cloudFileApi = new DropboxServerAssistedFileApi();
             activity.inject(cloudFileApi);
         }
 
