@@ -3,7 +3,7 @@ package org.paulbetts.shroom.ui;
 import android.os.Bundle;
 
 import org.paulbetts.shroom.R;
-import org.paulbetts.shroom.core.AppSettingsMixin;
+import org.paulbetts.shroom.AppSettingsMixin;
 import org.paulbetts.shroom.core.Lifecycle;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 

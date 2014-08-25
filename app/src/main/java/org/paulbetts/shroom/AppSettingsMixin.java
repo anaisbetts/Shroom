@@ -1,9 +1,14 @@
-package org.paulbetts.shroom.core;
+package org.paulbetts.shroom;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import org.paulbetts.shroom.core.ElementMixin;
+import org.paulbetts.shroom.core.Lifecycle;
+import org.paulbetts.shroom.core.LifecycleEvents;
+import org.paulbetts.shroom.core.RxDaggerActivity;
+import org.paulbetts.shroom.core.RxDaggerElement;
 import org.paulbetts.shroom.ui.WelcomeActivity;
 
 import javax.inject.Inject;

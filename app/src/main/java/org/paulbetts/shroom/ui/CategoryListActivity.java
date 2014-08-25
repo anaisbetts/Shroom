@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.paulbetts.shroom.R;
-import org.paulbetts.shroom.core.AppSettingsMixin;
+import org.paulbetts.shroom.AppSettingsMixin;
 import org.paulbetts.shroom.core.Lifecycle;
-import org.paulbetts.shroom.core.OAuthTokenMixin;
+import org.paulbetts.shroom.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 
 import javax.inject.Inject;

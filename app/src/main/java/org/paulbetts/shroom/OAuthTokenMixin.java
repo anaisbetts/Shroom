@@ -1,6 +1,9 @@
-package org.paulbetts.shroom.core;
+package org.paulbetts.shroom;
 
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
+import org.paulbetts.shroom.core.ElementMixin;
+import org.paulbetts.shroom.core.RxDaggerActivity;
+import org.paulbetts.shroom.core.RxDaggerElement;
 
 import javax.inject.Inject;
 

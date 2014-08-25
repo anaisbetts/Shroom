@@ -8,6 +8,7 @@ import android.view.View;
 
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
+import org.paulbetts.shroom.ActivityModule;
 
 import java.util.List;
 
