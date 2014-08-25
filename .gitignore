@@ -12,5 +12,3 @@ app/src/release/AndroidManifest.xml
 app/src/release/res/values/strings.xml
 
 app/mirror/gen
-
-server/src/main/webapp/WEB-INF/appengine-web.xml
