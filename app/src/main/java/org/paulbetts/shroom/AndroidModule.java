@@ -4,6 +4,7 @@ package org.paulbetts.shroom;
 
 import android.content.Context;
 
+import org.paulbetts.shroom.core.CupboardModuleRegistration;
 import org.paulbetts.shroom.core.DaggerApplication;
 import org.paulbetts.shroom.core.ForApplication;
 
@@ -11,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import nl.qbusict.cupboard.Cupboard;
 
 /**
  * A module for Android-specific dependencies which require a {@link Context} or
@@ -33,7 +35,19 @@ public class AndroidModule {
      * {@link org.paulbetts.shroom.core.ForApplication @Annotation} to explicitly differentiate it from an activity context.
      */
     @Provides @Singleton @ForApplication
-    Context provideApplicationContext() {
-        return application;
+    Context provideApplicationContext() { return application; }
+
+    @Provides @Singleton
+    CupboardModuleRegistration providesCupboardModuleRegistration() {
+        return new CupboardModuleRegistration() {
+            boolean registered;
+
+            @Override
+            public void register(Cupboard cupboard) {
+                if (registered) return;
+
+                cupboard.register(PlayableRom.class);
+            }
+        };
     }
 }

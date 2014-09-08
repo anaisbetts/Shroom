@@ -1,5 +1,6 @@
 package org.paulbetts.shroom;
 
+import org.paulbetts.shroom.core.CupboardSQLiteOpenHelper;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 import org.paulbetts.shroom.ui.CategoryDetailActivity;
 import org.paulbetts.shroom.ui.CategoryListActivity;
@@ -9,6 +10,7 @@ import org.paulbetts.shroom.ui.WelcomeAuthFragment;
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
 import org.paulbetts.shroom.cloudapi.DropboxServerAssistedFileApi;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -27,6 +29,7 @@ import dagger.Provides;
                 AppSettingsMixin.class,
                 OAuthTokenMixin.class,
                 DropboxServerAssistedFileApi.class,
+                CupboardSQLiteOpenHelper.class,
         },
         addsTo = AndroidModule.class,
         library = true
