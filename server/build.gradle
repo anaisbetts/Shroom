@@ -10,7 +10,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.6'
+        classpath 'com.google.appengine:gradle-appengine-plugin:+'
+        classpath 'me.tatarka:gradle-retrolambda:2.+'
     }
 }
 
@@ -20,8 +21,8 @@ repositories {
 
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'appengine'
 apply plugin: 'retrolambda'
+apply plugin: 'appengine'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -51,5 +52,5 @@ appengine {
 }
 
 retrolambda {
-//    jvmArgs '-noverify'
+    jvmArgs '-noverify'
 }
