@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.paulbetts.shroom.PlayableRom;
 import org.paulbetts.shroom.R;
+import org.paulbetts.shroom.RomManager;
 import org.paulbetts.shroom.cloudapi.CloudFileApi;
 import org.paulbetts.shroom.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;
@@ -39,7 +41,7 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
     OAuthTokenMixin oAuthTokenMixin;
 
     @Inject
-    CloudFileApi dropboxApi;
+    RomManager romManager;
 
     public WelcomeAuthFragment() {
         // Required empty public constructor
@@ -50,7 +52,7 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
         final View ret = inflater.inflate(R.layout.fragment_welcome_auth, container, false);
         ButterKnife.inject(this, ret);
 
-        Observable<RomInfo> roms = ViewObservable.clicks(authDropbox, false).take(1)
+        Observable<PlayableRom> roms = ViewObservable.clicks(authDropbox, false).take(1)
                 .doOnNext(x -> oAuthTokenMixin.forgetExistingToken())
                 .flatMap(x -> oAuthTokenMixin.initializeHelper(this))
                 .doOnNext(x -> Log.i("Shroom", "Logged into Cloud File Backend successfully"))
@@ -59,10 +61,10 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
                     authDropbox.setVisibility(View.GONE);
                     searchScene.setVisibility(View.VISIBLE);
 
-                    return dropboxApi.scanForRoms();
+                    return romManager.scanForRomsFull();
                 })
                 .doOnNext(x -> {
-                    Log.i("WelcomeActivity", x.getTitle());
+                    Log.i("WelcomeActivity", x.getCloudRomInfo().getTitle());
                 })
                 .publish()
                 .refCount();
@@ -70,7 +72,7 @@ public class WelcomeAuthFragment extends RxDaggerFragment {
         roms
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(x -> {
-                    foundRom.setText("Found " + x.getTitle() + "...");
+                    foundRom.setText("Found " + x.getCloudRomInfo().getTitle() + "...");
                 })
                 .reduce(0, (acc,x) -> acc+1)
                 .doOnNext(x -> {
