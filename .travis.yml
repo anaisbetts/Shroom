@@ -12,7 +12,7 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-x86-android-19
+#    - sys-img-x86-android-19
   licenses:
     - android-sdk-license-5be876d5 # new license!
     - '.*intel.+'
@@ -20,9 +20,9 @@ android:
 # Emulator Management: Create, Start and Wait
 before_script:
   - ./script/bootstrap
-  - echo no | android create avd --force -n test -t $ANDROID_API_LEVEL --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+#  - echo no | android create avd --force -n test -t $ANDROID_API_LEVEL --abi $ANDROID_ABI
+#  - emulator -avd test -no-skin -no-audio -no-window &
+#  - android-wait-for-emulator
+#  - adb shell input keyevent 82 &
     
-script: ./gradlew connectedAndroidTest
+script: ./gradlew assembleDebug
