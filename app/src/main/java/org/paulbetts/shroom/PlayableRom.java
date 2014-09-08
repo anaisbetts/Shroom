@@ -19,17 +19,20 @@ public class PlayableRom {
         this.cloudRomInfo = cloudRomInfo;
     }
 
-    protected Date createdAt;
+    Long _id;
+    public Long getId() { return _id; }
+
+    Date createdAt;
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    protected Date lastPlayedAt;
+    Date lastPlayedAt;
     public Date getLastPlayedAt() {
         return lastPlayedAt;
     }
 
-    protected boolean isStarred;
+    boolean isStarred;
     public boolean isStarred() {
         return isStarred;
     }

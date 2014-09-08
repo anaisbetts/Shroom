@@ -7,6 +7,7 @@ import android.content.Context;
 import org.paulbetts.shroom.core.CupboardModuleRegistration;
 import org.paulbetts.shroom.core.DaggerApplication;
 import org.paulbetts.shroom.core.ForApplication;
+import org.paulbetts.shroom.models.RomInfo;
 
 import javax.inject.Singleton;
 
@@ -47,6 +48,7 @@ public class AndroidModule {
                 if (registered) return;
 
                 cupboard.register(PlayableRom.class);
+                cupboard.register(RomInfo.class);
             }
         };
     }
