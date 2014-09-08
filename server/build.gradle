@@ -51,5 +51,5 @@ appengine {
 }
 
 retrolambda {
-    jvmArgs '-noverify'
+//    jvmArgs '-noverify'
 }
