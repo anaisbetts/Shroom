@@ -1,19 +1,22 @@
 package org.paulbetts.shroom;
 
-import android.media.Image;
+import org.paulbetts.shroom.models.RomInfo;
 
 import java.util.Date;
 
-import rx.Observable;
-
 public class PlayableRom {
-    public PlayableRom(Date createdAt, Date lastPlayedAt, String romDriveId, String friendlyTitle, boolean isStarred, Observable<Image> imageToBeLoaded) {
+    public PlayableRom(RomInfo cloudRomInfo) {
+        this.cloudRomInfo = cloudRomInfo;
+        this.createdAt = new Date();
+        this.lastPlayedAt = new Date(0);
+        this.isStarred = false;
+    }
+
+    public PlayableRom(Date createdAt, Date lastPlayedAt, boolean isStarred, RomInfo cloudRomInfo) {
         this.createdAt = createdAt;
         this.lastPlayedAt = lastPlayedAt;
-        this.romDriveId = romDriveId;
-        this.friendlyTitle = friendlyTitle;
         this.isStarred = isStarred;
-        this.imageToBeLoaded = imageToBeLoaded;
+        this.cloudRomInfo = cloudRomInfo;
     }
 
     protected Date createdAt;
@@ -26,26 +29,12 @@ public class PlayableRom {
         return lastPlayedAt;
     }
 
-    protected String romDriveId;
-    public String getRomDriveId() {
-        return romDriveId;
-    }
-
-    protected String friendlyTitle;
-    public String getFriendlyTitle() {
-        return friendlyTitle;
-    }
-
     protected boolean isStarred;
     public boolean isStarred() {
         return isStarred;
     }
-    public void setStarred(boolean isStarred) {
-        this.isStarred = isStarred;
-    }
+    public void setStarred(boolean isStarred) { this.isStarred = isStarred; }
 
-    protected Observable<Image> imageToBeLoaded;
-    public Observable<Image> getImageToBeLoaded() {
-        return imageToBeLoaded;
-    }
+    RomInfo cloudRomInfo;
+    public RomInfo getCloudRomInfo() { return cloudRomInfo; }
 }
