@@ -37,6 +37,8 @@ public class ScannerServlet extends HttpServlet {
     static ObjectMapper om = new ObjectMapper();
     private static final Logger log = Logger.getLogger(ScannerServlet.class.getName());
 
+    private final int MEMCACHE_REVISION_NUM = 1;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String token = req.getHeader("Authorization");
@@ -47,7 +49,7 @@ public class ScannerServlet extends HttpServlet {
 
         token = token.replace("Bearer ", "");
 
-        String memcacheKey = "scanner_" + token;
+        String memcacheKey = "scanner_" + token + "_" + MEMCACHE_REVISION_NUM;
         MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
         Object cachedResponse = memcache.get(memcacheKey);
 
@@ -153,7 +155,7 @@ public class ScannerServlet extends HttpServlet {
                 null,
                 req.getServerName(),
                 req.getServerPort(),
-                String.join("/", paths),
+                joinStrings("/", Arrays.asList(paths)),
                 null, null);
         } catch (URISyntaxException e) {
             throw new RuntimeException("Bad Programmer");
