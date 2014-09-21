@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.appengine:gradle-appengine-plugin:+'
+        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.10'
         classpath 'me.tatarka:gradle-retrolambda:2.+'
     }
 }
@@ -28,9 +28,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    appengineSdk 'com.google.appengine:appengine-java-sdk:+'
-    compile 'com.google.appengine:appengine-endpoints:+'
-    compile 'com.google.appengine:appengine-endpoints-deps:+'
+    appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.10'
+    compile 'com.google.appengine:appengine-endpoints:1.9.10'
+    compile 'com.google.appengine:appengine-endpoints-deps:1.9.10'
     compile 'javax.servlet:servlet-api:2.5'
     compile 'com.googlecode.objectify:objectify:+'
     compile 'com.ganyo:gcm-server:+'
