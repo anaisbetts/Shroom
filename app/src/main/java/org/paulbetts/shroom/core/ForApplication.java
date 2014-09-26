@@ -1,4 +1,4 @@
-package org.paulbetts.shroom.helpers;
+package org.paulbetts.shroom.core;
 
 // Cribbed from https://github.com/square/dagger/blob/master/examples/android-simple/src/main/java/com/example/dagger/simple/ForApplication.java
 

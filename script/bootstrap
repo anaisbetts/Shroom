@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT="$SCRIPT_DIR/.."
+
+cp $PROJECT_ROOT/app/AndroidManifest.example $PROJECT_ROOT/app/src/debug/AndroidManifest.xml
+cp $PROJECT_ROOT/app/AndroidManifest.example $PROJECT_ROOT/app/src/release/AndroidManifest.xml
+
+cp $PROJECT_ROOT/app/secrets.example $PROJECT_ROOT/app/src/debug/res/values/strings.xml
+cp $PROJECT_ROOT/app/secrets.example $PROJECT_ROOT/app/src/release/res/values/strings.xml
+
+cp $PROJECT_ROOT/server/appengine-web.example $PROJECT_ROOT/server/src/main/webapp/WEB-INF/appengine-web.xml

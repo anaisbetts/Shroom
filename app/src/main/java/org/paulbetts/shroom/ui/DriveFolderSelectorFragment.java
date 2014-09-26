@@ -1,4 +1,4 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.cloudapi.FolderMetadata;
 import org.paulbetts.shroom.core.ModelViewHolder;
 import org.paulbetts.shroom.core.ReactiveArrayList;
@@ -21,14 +22,9 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.subjects.PublishSubject;
 
 public class DriveFolderSelectorFragment extends RxDaggerFragment {
     private ReactiveArrayList<FolderMetadata> rootFolders = new ReactiveArrayList<>();
-
-    @Inject
-    CategoryScanners scanners;
 
     @Inject
     RxDaggerActivity hostActivity;
@@ -41,17 +37,6 @@ public class DriveFolderSelectorFragment extends RxDaggerFragment {
                              Bundle savedInstanceState) {
         View ret = inflater.inflate(R.layout.fragment_drive_folder_selector, container, false);
         RecyclerView list = (RecyclerView)ret.findViewById(R.id.folder_list);
-
-        scanners.performFullScan()
-                //.timeout(5, TimeUnit.SECONDS).retry(2)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(x -> {
-                    /*
-                    for(PlayableRom di: x) {
-                        rootFolders.add(di);
-                    }
-                    */
-                });
 
         list.setAdapter(new ReactiveListAdapter(rootFolders) {
             @Override

@@ -2,6 +2,8 @@ package org.paulbetts.shroom.core;
 
 import android.app.Application;
 
+import org.paulbetts.shroom.AndroidModule;
+
 import dagger.ObjectGraph;
 
 /**

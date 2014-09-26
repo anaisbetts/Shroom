@@ -6,7 +6,7 @@
     android:paddingRight="16dp"
     android:paddingTop="64dp"
     android:paddingBottom="64dp"
-    tools:context="org.paulbetts.shroom.WelcomeActivity">
+    tools:context="org.paulbetts.shroom.ui.WelcomeActivity">
 
     <FrameLayout
         android:id="@+id/welcome_content"

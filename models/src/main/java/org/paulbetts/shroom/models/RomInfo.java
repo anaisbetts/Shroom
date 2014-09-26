@@ -1,11 +1,12 @@
 package org.paulbetts.shroom.models;
 
 public class RomInfo {
-    private String storageType = "dropbox";
-    private String storagePath;
-    private String title;
-    private String description;
-    private String coverArtUrl;
+    Long _id;
+    String storageType = "dropbox";
+    String storagePath;
+    String title;
+    String description;
+    String coverArtUrl;
 
     public RomInfo(String title, String description, String coverArtUrl, String storagePath) {
         this.title = title;

@@ -1,4 +1,4 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.paulbetts.shroom.R;
 import org.paulbetts.shroom.dummy.DummyContent;
 
 /**

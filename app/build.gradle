@@ -1,3 +1,18 @@
+buildscript {
+    repositories {
+        maven { url 'repo1.maven.org/maven2' }
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'me.tatarka:gradle-retrolambda:1.+'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'retrolambda'
 
@@ -35,11 +50,13 @@ android {
 
     buildTypes {
         debug {
+            runProguard false
+            proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
         }
         release {
-            runProguard false
+            runProguard true
             proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -51,7 +68,7 @@ android {
 }
 
 retrolambda {
-    jvmArgs '-noverify'
+//    jvmArgs '-noverify'
 }
 
 dependencies {
@@ -60,17 +77,18 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.3.+'
     compile 'com.jakewharton:butterknife:5.+'
     compile 'com.android.support:support-v4:+'
-    compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:palette-v7:+'
-    compile 'com.google.android.gms:play-services:+'
+    compile 'com.android.support:recyclerview-v7:+'
     compile 'com.squareup.okhttp:okhttp:2.0.+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.squareup.dagger:dagger:+'
-    compile 'com.squareup.dagger:dagger-compiler:+'
+    provided 'com.squareup.dagger:dagger-compiler:+'
     compile 'com.netflix.rxjava:rxjava-android:+'
     compile 'com.etsy.android.grid:library:1.0.+'
     compile 'org.javatuples:javatuples:+'
+    compile 'nl.qbusict:cupboard:+'
+
     compile project(":models")
     compile project(path: ':server', configuration: 'android-endpoints')
 }

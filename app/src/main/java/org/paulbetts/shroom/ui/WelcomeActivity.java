@@ -1,11 +1,10 @@
-package org.paulbetts.shroom;
+package org.paulbetts.shroom.ui;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import org.paulbetts.shroom.core.AppSettingsMixin;
+import org.paulbetts.shroom.R;
+import org.paulbetts.shroom.AppSettingsMixin;
 import org.paulbetts.shroom.core.Lifecycle;
-import org.paulbetts.shroom.core.OAuthTokenMixin;
 import org.paulbetts.shroom.core.RxDaggerActivity;
 
 import javax.inject.Inject;
@@ -17,16 +16,7 @@ public class WelcomeActivity extends RxDaggerActivity {
     AppSettingsMixin appSettings;
 
     @Inject
-    OAuthTokenMixin oauthTokens;
-
-    @Inject
-    CategoryScanners scanners;
-
-    @Inject
     WelcomeAuthFragment authFragment;
-
-    @Inject
-    DriveFolderSelectorFragment driveSelectorFragment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

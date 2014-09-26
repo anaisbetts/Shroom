@@ -1,5 +1,7 @@
 package org.paulbetts.shroom.cloudapi;
 
+import org.paulbetts.shroom.models.RomInfo;
+
 import rx.Observable;
 
 /**
@@ -12,4 +14,5 @@ public interface CloudFileApi {
 
     Observable<String> authenticate();
     Observable<Boolean> testToken();
+    Observable<RomInfo> scanForRoms();
 }

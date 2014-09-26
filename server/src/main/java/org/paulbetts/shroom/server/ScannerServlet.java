@@ -17,9 +17,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Array;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -28,23 +31,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
-import rx.subscriptions.Subscriptions;
 
 public class ScannerServlet extends HttpServlet {
     static ObjectMapper om = new ObjectMapper();
     private static final Logger log = Logger.getLogger(ScannerServlet.class.getName());
 
+    private final int MEMCACHE_REVISION_NUM = 1;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String token = req.getParameter("dropbox_token");
+        String token = req.getHeader("Authorization");
         if (token == null) {
             failRequestWith(400, "Bad Token", resp);
             return;
         }
 
-        String memcacheKey = "scanner_" + token;
+        token = token.replace("Bearer ", "");
+
+        String memcacheKey = "scanner_" + token + "_" + MEMCACHE_REVISION_NUM;
         MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
         Object cachedResponse = memcache.get(memcacheKey);
 
@@ -61,7 +66,7 @@ public class ScannerServlet extends HttpServlet {
         resp.setContentType("application/json");
         final PrintWriter writer = resp.getWriter();
 
-        Observable<List<RomInfo>> scans = searchForRoms(client, Arrays.asList("smc"))
+        Observable<List<RomInfo>> scans = searchForRoms(client, req, Arrays.asList("smc"))
                 .publish()
                 .refCount();
 
@@ -78,16 +83,26 @@ public class ScannerServlet extends HttpServlet {
                     ex.printStackTrace();
                 }
             }
+
+            writer.write("\n");
+            lines.add("\n");
+        }, ex -> {
+            log.log(Level.INFO, "Dropbox scan failed", ex);
         });
 
-        scans.toBlocking().last();
+        try {
+            scans.toBlocking().last();
+        } catch (Exception ex) {
+            failRequestWith(400, "Invalid Dropbox Token", resp);
+            return;
+        }
 
         memcache.put(memcacheKey, joinStrings("", lines),
                 Expiration.byDeltaSeconds(60), MemcacheService.SetPolicy.SET_ALWAYS);
         writer.close();
     }
 
-    private Observable<List<RomInfo>> searchForRoms(final DbxClient client, final List<String> extensions) {
+    private Observable<List<RomInfo>> searchForRoms(final DbxClient client, final HttpServletRequest req, final List<String> extensions) {
         return Observable.create((Subscriber<? super List<RomInfo>> op) -> {
             try {
                 for (String ext : extensions) {
@@ -99,7 +114,7 @@ public class ScannerServlet extends HttpServlet {
                         // that happen to have 'smc' et al in the name as a token.
                         if (!e.name.endsWith(ext) || !e.isFile()) return;
 
-                        ret.add(dropboxToRomInfo(e));
+                        ret.add(dropboxToRomInfo(e, req));
                     }
 
                     op.onNext(ret);
@@ -132,6 +147,23 @@ public class ScannerServlet extends HttpServlet {
         return Observable.merge(scans, 8);
     }
 
+    private String pathForReq(HttpServletRequest req, String... paths) {
+        URI uri;
+
+        try {
+            uri = new URI(req.getServerPort() == 443 ? "https" : "http",
+                null,
+                req.getServerName(),
+                req.getServerPort(),
+                joinStrings("/", Arrays.asList(paths)),
+                null, null);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("Bad Programmer");
+        }
+
+        return uri.toString();
+    }
+
     private void failRequestWith(int code, String message, HttpServletResponse resp) throws IOException {
         Writer writer = resp.getWriter();
 
@@ -150,8 +182,9 @@ public class ScannerServlet extends HttpServlet {
         public String message;
     }
 
-    private RomInfo dropboxToRomInfo(DbxEntry entry) {
-        return new RomInfo(entry.name, "", "", entry.path);
+    private RomInfo dropboxToRomInfo(DbxEntry entry, HttpServletRequest req) {
+        String snesImage = pathForReq(req, "images", "controller_snes_usa.png");
+        return new RomInfo(entry.name, "", snesImage, entry.path);
     }
 
     String joinStrings(String delimiter, List<String> lines) {
